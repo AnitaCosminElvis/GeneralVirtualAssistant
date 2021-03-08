@@ -5,6 +5,7 @@
 
 class ITextToSpeech {
 public:
+    virtual int Initialize() = 0;
     virtual void ConvertTextToSpeech(const std::string&) = 0;
 };
 

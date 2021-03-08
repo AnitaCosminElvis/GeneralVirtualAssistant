@@ -1,5 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "Models/ChatModel.h"
+
 #include <QDir>
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -7,43 +9,9 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     installEventFilter(this);
-
     ui->setupUi(this);
 
-
-//    output.setFileName("C:/Users/selectuls/Desktop/record.wav");
-//    settings.setCodec("audio/wav");
-//    settings.setSampleRate(16000);
-//    settings.setSampleSize(16);
-//    settings.setChannelCount(1);
-//    settings.setByteOrder(QAudioFormat::LittleEndian);
-//    settings.setSampleType(QAudioFormat::SignedInt);
-//    audio = new QAudioInput(settings);
-
-
-//    QAudioDeviceInfo info(QAudioDeviceInfo::defaultOutputDevice());
-//      if (!info.isFormatSupported(settings)) {
-//          settings = info.nearestFormat(settings);      // This is the magic line
-//          settings.setSampleRate(16000);
-//          qDebug() << "Raw audio format not supported by backend. Trying the nearest format.";
-//      }
-
-
-
-    audioRecorder = new QAudioRecorder(this);
-
-    settings.setCodec("audio/pcm");
-    settings.setSampleRate(16000);
-    settings.setChannelCount(1);
-    settings.setBitRate(128000);
-    settings.setQuality(QMultimedia::EncodingQuality::VeryHighQuality);
-    settings.setEncodingMode( QMultimedia::ConstantBitRateEncoding);
-    audioRecorder->setEncodingSettings(settings, QVideoEncoderSettings(), "audio/x-wav");
-    audioRecorder->setContainerFormat("wav");
-    QString path = QDir::currentPath() + "/record.raw";
-
-    audioRecorder->setOutputLocation(QUrl::fromLocalFile("C:/Users/selectuls/Desktop/record.wav"));
-
+    m_pChatModel.reset(new ChatModel(this));
 }
 
 MainWindow::~MainWindow()
@@ -60,9 +28,8 @@ MainWindow::~MainWindow()
 
 void MainWindow::SetupChatBox()
 {
-    m_pChatModel = new ChatModel(this);
     ui->tbl_chatBox->setFocusPolicy(Qt::NoFocus);
-    ui->tbl_chatBox->setModel(m_pChatModel);
+    ui->tbl_chatBox->setModel(m_pChatModel.get());
     ui->tbl_chatBox->setSelectionBehavior(QAbstractItemView::SelectRows);
     ui->tbl_chatBox->setSelectionMode(QAbstractItemView::ContiguousSelection);
     ui->tbl_chatBox->setSortingEnabled(false);
@@ -164,7 +131,8 @@ void MainWindow::OnCloseSlot()
 void MainWindow::PushMessageFromVA(QString qsPushInput)
 {
     //insert meesage from VA
-    QString qsVAResponse = m_pChatModel->GetLocalResponse(qsPushInput);
+    std::string input = qsPushInput.toLocal8Bit().data();
+    QString qsVAResponse = m_pChatModel->GetLocalResponse(input);
     m_pChatModel->PushChatMessage(true, qsVAResponse);
 }
 
@@ -189,12 +157,26 @@ void MainWindow::OnInsertMessageSlot()
 
     m_pChatModel->PushChatMessage(false,qsUserInput);
 
-    QString qsVAResponse = m_pChatModel->GetLocalResponse(qsUserInput);
+    std::string input = qsUserInput.toLocal8Bit().data();
+    QString qsVAResponse = m_pChatModel->GetLocalResponse(input,false);
 
     m_pChatModel->PushChatMessage(true,qsVAResponse);
 
     ui->te_userInput->clear();
+}
 
+void MainWindow::OnInsertAudioMsgSlot(std::string input, std::string response)
+{
+    if (false == m_bIsInitialized) return;
+
+    if (input.empty()){
+        m_pChatModel->PushChatMessage(true,response.data());
+    }else{
+        m_pChatModel->PushChatMessage(false,input.data());
+        m_pChatModel->PushChatMessage(true,response.data());
+    }
+
+    ui->te_userInput->clear();
 }
 
 bool MainWindow::eventFilter(QObject *obj, QEvent* event){
@@ -224,33 +206,15 @@ bool MainWindow::eventFilter(QObject *obj, QEvent* event){
 
 void MainWindow::on_btnSendMessage_toggled(bool checked)
 {
-    if (checked && audioRecorder->state() == QMediaRecorder::StoppedState){
-        audioRecorder->record();
+    if (checked){
+        if (!m_pChatModel->StartRecording()) {
+            ui->btnSendMessage->setChecked(false);
+        }
     }else{
-        audioRecorder->stop();
-        QString conversion = m_pChatModel->GetWebResponse("");
-        ui->te_userInput->clear();
-        ui->te_userInput->setText(conversion);
-        OnInsertMessageSlot();
+        std::string input;
+        m_pChatModel->StopRecording();
+        QString conversion = m_pChatModel->GetLocalResponse(input);
+
+        OnInsertAudioMsgSlot(input,conversion.toLocal8Bit().data());
     }
-
-//    if (checked){
-//        output.open(QIODevice::ReadWrite);
-//        audio->start(&output);
-//        //QTimer::singleShot(3000, this, SLOT(stopRecording()));
-
-//    }else{
-//        audio->stop();
-//        output.close();
-//        QString conversion = m_pChatModel->GetWebResponse("");
-//        ui->te_userInput->clear();
-//        ui->te_userInput->setText(conversion);
-//    }
 }
-
-//void MainWindow::stopRecording()
-//{
-//    audio->stop();
-//    output.close();
-//    m_pChatModel->GetWebResponse("");
-//}

@@ -1,31 +1,31 @@
-#include "chatmodel.h"
-#include "../GeneralAIVirtualAssistant/generalaivirtualassistant.h"
+#include "ChatModel.h"
 
 ChatModel::ChatModel(QObject *parent)
     : QAbstractTableModel(parent)
 {
-    m_pVirtualAssistant = new GeneralAIVirtualAssistant();
+    m_pVirtualAssistant.reset(new GeneralAIVirtualAssistant);
 }
 
 ChatModel::~ChatModel()
 {
-    if (m_pVirtualAssistant) delete m_pVirtualAssistant;
 }
 
-QString ChatModel::GetLocalResponse(const QString& qsMessage){
-    if (m_pVirtualAssistant){
-        return m_pVirtualAssistant->GetLocalResponse(qsMessage.toLocal8Bit().data()).data();
-    }
-
-    return VA_UNINIT;
+QString ChatModel::GetLocalResponse(std::string& input, bool isRecording){
+    return m_pVirtualAssistant->GetLocalResponse(input, isRecording).data();
 }
 
-QString ChatModel::GetWebResponse(const QString& qsMessage){
-    if (m_pVirtualAssistant){
-        return m_pVirtualAssistant->GetWebResponse(qsMessage.toLocal8Bit().data()).data();
-    }
+QString ChatModel::GetWebResponse(std::string& input, bool isRecording){
+    return m_pVirtualAssistant->GetWebResponse(input, isRecording).data();
+}
 
-    return VA_UNINIT;
+int ChatModel::StartRecording()
+{
+    return m_pVirtualAssistant->StartRecording();
+}
+
+void ChatModel::StopRecording()
+{
+    m_pVirtualAssistant->StopRecording();
 }
 
 int ChatModel::PushChatMessage(const bool isFromVA, const QString& qsMessage){

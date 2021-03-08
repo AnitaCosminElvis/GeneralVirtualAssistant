@@ -1,5 +1,5 @@
 QT  -= gui
-QT  += core xml network texttospeech
+QT  += core xml network texttospeech multimedia
 
 TEMPLATE = lib
 DEFINES += GENERALAIVIRTUALASSISTANT_LIBRARY
@@ -19,10 +19,12 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     LocalVA/localvirtualassistant.cpp \
-    SpeechTextIO/IBMWatsonSpeechToTextWrapper.cpp \
-    SpeechTextIO/generaltexttospeechwrapper.cpp \
+    SpeechTextIO/IBMWatsonSpeechToText.cpp \
+    SpeechTextIO/SpeechToTextWrapper.cpp \
+    SpeechTextIO/TextToSpeechWrapper.cpp \
     SpeechTextIO/pocketsphynxspeechtotextwrapper.cpp \
     WebVA/webvirtualassistant.cpp \
+    SpeechTextIO/audiorecorder.cpp \
     generalaivirtualassistant.cpp \
     LocalVA/aimlparser.cpp \
     virtualassistanfactorymethod.cpp
@@ -32,12 +34,14 @@ HEADERS += \
     Data/Enums.h \
     GeneralAIVirtualAssistant_global.h \
     LocalVA/localvirtualassistant.h \
-    SpeechTextIO/IBMWatsonSpeechToTextWrapper.h \
+    SpeechTextIO/IBMWatsonSpeechToText.h \
     SpeechTextIO/ISpeechToText.h \
     SpeechTextIO/ITextToSpeech.h \
-    SpeechTextIO/generaltexttospeechwrapper.h \
+    SpeechTextIO/SpeechToTextWrapper.h \
+    SpeechTextIO/TextToSpeechWrapper.h \
     SpeechTextIO/pocketsphynxspeechtotextwrapper.h \
     WebVA/webvirtualassistant.h \
+    SpeechTextIO/audiorecorder.h \
     generalaivirtualassistant.h \
     LocalVA/aimlparser.h \
     ivirtualassistant.h \

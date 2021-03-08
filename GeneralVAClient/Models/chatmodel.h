@@ -4,8 +4,8 @@
 #include <QAbstractTableModel>
 #include <QFont>
 #include "Data/Defines.h"
+#include "../GeneralAIVirtualAssistant/generalaivirtualassistant.h"
 
-class GeneralAIVirtualAssistant;
 class ChatModel: public QAbstractTableModel
 {
     Q_OBJECT
@@ -14,8 +14,11 @@ public:
     ChatModel(QObject *parent = nullptr);
     ~ChatModel();
 
-    QString GetLocalResponse(const QString& qsMessage);
-    QString GetWebResponse(const QString& audioMsg);
+    QString GetLocalResponse(std::string& input, bool isRecording = true);
+    QString GetWebResponse(std::string& input, bool isRecording = true);
+
+    int StartRecording();
+    void StopRecording();
 
     int PushChatMessage(const bool isFromBot, const QString& qsMessage);
     bool insertRows(int row, int count, const QModelIndex &parent = QModelIndex()) override;
@@ -25,10 +28,10 @@ public:
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
 private:
-    QList <QPair<QString, QString>>     m_data;
-    QString                             m_CurrentSender;
-    QString                             m_CurrentMsg;
-    GeneralAIVirtualAssistant*          m_pVirtualAssistant = nullptr;
+    QList <QPair<QString, QString>>                     m_data;
+    QString                                             m_CurrentSender;
+    QString                                             m_CurrentMsg;
+    std::unique_ptr<GeneralAIVirtualAssistant>          m_pVirtualAssistant;
 };
 
 #endif // CHATMODEL_H

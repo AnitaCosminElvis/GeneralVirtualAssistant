@@ -7,6 +7,8 @@
 #include <QString>
 #include "virtualassistanfactorymethod.h"
 #include "ivirtualassistant.h"
+#include "SpeechTextIO/audiorecorder.h"
+
 #include <memory>
 
 class GENERALAIVIRTUALASSISTANT_EXPORT GeneralAIVirtualAssistant
@@ -14,13 +16,12 @@ class GENERALAIVIRTUALASSISTANT_EXPORT GeneralAIVirtualAssistant
 public:
     GeneralAIVirtualAssistant();
 
-    std::string GetLocalResponse(const std::string&);
+    std::string GetLocalResponse(std::string& input, bool isRecording = true);
 
-    std::string GetWebResponse(const std::string&);
+    std::string GetWebResponse(std::string& input, bool isRecording = true);
 
-    std::string ConvertSpeechToText(void*, int size);
-
-    void ConvertTextToSpeech(const std::string&);
+    int StartRecording();
+    void StopRecording();
 
     bool AddBlackListItem(const std::string&);
     bool RemoveBlackListItem(const std::string&);
@@ -29,9 +30,10 @@ public:
 
     bool SetupProfileData(const std::string& name, int age);
 private:
-    QMap<QString,QString>   m_qChatHistoryMap;
-    std::unique_ptr<IVirtualAssistant> unqLocalVA;
-    std::unique_ptr<IVirtualAssistant> unqWebVA;
+    QMap<QString,QString>               m_qChatHistoryMap;
+    std::unique_ptr<IVirtualAssistant>  m_unqLocalVA;
+    std::unique_ptr<IVirtualAssistant>  m_unqWebVA;
+    std::unique_ptr<AudioRecorder>      m_unqAudioRecorder;
 
 };
 

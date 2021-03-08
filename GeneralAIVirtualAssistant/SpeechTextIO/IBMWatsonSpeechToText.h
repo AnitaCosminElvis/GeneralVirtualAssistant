@@ -2,23 +2,23 @@
 #define IBMWATSONSPEECHTOTEXTWRAPPER_H
 
 #include "ISpeechToText.h"
+#include "Data/Defines.h"
 
 #include <memory>
-
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QObject>
 #include <QAuthenticator>
 
-class IBMWatsonSpeechToTextWrapper: public QObject, public ISpeechToText
+class IBMWatsonSpeechToText: public QObject
 {
     Q_OBJECT
 public:
-    IBMWatsonSpeechToTextWrapper();
+    IBMWatsonSpeechToText();
 
-    int Initialize() override;
-    std::string ConvertSpeechToText(const void *) override;
+    int Initialize();
+    std::string ConvertSpeechToText();
 private:
     std::string GetAnswerFromResponse();
 

@@ -1,15 +1,10 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
-#include <QAudioRecorder>
-#include <QAudioFormat>
-#include <QAudioInput>
 
 #include <QMainWindow>
 #include <QString>
-#include <Qtimer>
 #include <QSettings>
 #include <QStringList>
-#include <Qlist>
 #include <QMap>
 #include <QTime>
 #include <QCryptographicHash>
@@ -19,8 +14,9 @@
 #include <QAbstractItemDelegate>
 #include <QKeyEvent>
 #include "qstartdialog.h"
-#include "Models/chatmodel.h"
 #include "Data/Defines.h"
+
+class ChatModel;
 
 namespace Ui {
 class MainWindow;
@@ -44,6 +40,7 @@ protected:
 public slots:
     void OnCloseSlot();
     void OnInsertMessageSlot();
+    void OnInsertAudioMsgSlot(std::string input, std::string response);
     void OnFinishedGettingDataSlot(QString qsName, qint32 nAge, QString qsOccupation);
 
 private slots:
@@ -57,19 +54,13 @@ private:
     void LoadChatHistory();
 
 private:
-    Ui::MainWindow *        ui = nullptr;
-    QStartDialog*           m_pQStartDialog = nullptr;
-    ChatModel*              m_pChatModel = nullptr;
-    QString                 m_qsName = "Cosmin";
-    QString                 m_qsOccupation = "Programmer";
-    qint32                  m_nAge = 18;
-    bool                    m_bIsInitialized = false;
-
-    QAudioRecorder*         audioRecorder = nullptr;
-    QAudioEncoderSettings   settings;
-//    QAudioFormat settings;
-//    QAudioInput *audio = nullptr;
-//    QFile output;
+    Ui::MainWindow *                ui = nullptr;
+    QStartDialog*                   m_pQStartDialog = nullptr;
+    std::unique_ptr<ChatModel>      m_pChatModel;
+    QString                         m_qsName = "Cosmin";
+    QString                         m_qsOccupation = "Programmer";
+    qint32                          m_nAge = 18;
+    bool                            m_bIsInitialized = false;
 
 };
 

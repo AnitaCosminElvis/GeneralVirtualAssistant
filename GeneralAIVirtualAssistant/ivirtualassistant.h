@@ -7,7 +7,7 @@ class IVirtualAssistant
 {
 public:
     virtual bool Initialize() = 0;
-    virtual std::string GetResponse(const std::string&) = 0;
+    virtual std::string GetResponse(std::string&, bool isRecording = true) = 0;
 };
 
 #endif // IVIRTUALASSISTANT_H

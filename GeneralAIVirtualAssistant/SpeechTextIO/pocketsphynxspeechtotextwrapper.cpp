@@ -46,7 +46,7 @@ int PocketSphynxSpeechToTextWrapper::Initialize(){
 }
 
 
-std::string PocketSphynxSpeechToTextWrapper::ConvertSpeechToText(const void *)
+std::string PocketSphynxSpeechToTextWrapper::ConvertSpeechToText()
 {
     FILE *fh = nullptr;
     char const *hyp = nullptr;

@@ -1,5 +1,6 @@
-#include "IBMWatsonSpeechToTextWrapper.h"
+#include "IBMWatsonSpeechToText.h"
 #include <QFile>
+#include <QDir>
 #include <QEventLoop>
 #include <QJsonDocument>
 #include <QJsonValue>
@@ -7,7 +8,7 @@
 #include <QJsonObject>
 #include <QVariantMap>
 
-IBMWatsonSpeechToTextWrapper::IBMWatsonSpeechToTextWrapper()
+IBMWatsonSpeechToText::IBMWatsonSpeechToText()
 {
     url.setUrl("");
 
@@ -16,7 +17,7 @@ IBMWatsonSpeechToTextWrapper::IBMWatsonSpeechToTextWrapper()
     headerContent = "audio/wav";
 }
 
-int IBMWatsonSpeechToTextWrapper::Initialize()
+int IBMWatsonSpeechToText::Initialize()
 {
 
     bool bconnect = connect(&manager,    SIGNAL(authenticationRequired(QNetworkReply*,QAuthenticator*)),
@@ -24,15 +25,17 @@ int IBMWatsonSpeechToTextWrapper::Initialize()
 
 #ifndef QT_NO_SSL
     bconnect = connect(&manager,      &QNetworkAccessManager::sslErrors,
-            this,       &IBMWatsonSpeechToTextWrapper::sslErrors);
+            this,       &IBMWatsonSpeechToText::sslErrors);
 #endif
 
     return 1;
 }
 
-std::string IBMWatsonSpeechToTextWrapper::ConvertSpeechToText(const void *)
+std::string IBMWatsonSpeechToText::ConvertSpeechToText()
 {
-    std::unique_ptr<QFile>  file(new QFile("C:/Users/selectuls/Desktop/record.wav"));
+    QString path = QDir::currentPath() + DATA_PATH +RECORD_PATH;
+
+    std::unique_ptr<QFile>  file(new QFile(path));
 
     if (!file->open(QIODevice::ReadWrite)) return "";
 
@@ -43,7 +46,7 @@ std::string IBMWatsonSpeechToTextWrapper::ConvertSpeechToText(const void *)
 
     reply = manager.post(request,file->readAll());
 
-    bool bconn = connect(reply, &QNetworkReply::finished, this, &IBMWatsonSpeechToTextWrapper::finishedReq);
+    bool bconn = connect(reply, &QNetworkReply::finished, this, &IBMWatsonSpeechToText::finishedReq);
 
     bconn = connect(reply , &QNetworkReply::finished, &loop, &QEventLoop::quit);
 
@@ -53,7 +56,7 @@ std::string IBMWatsonSpeechToTextWrapper::ConvertSpeechToText(const void *)
 }
 
 
-void IBMWatsonSpeechToTextWrapper::finishedReq() {
+void IBMWatsonSpeechToText::finishedReq() {
     if (reply->error()) {
         response = reply->errorString();
         return;
@@ -63,14 +66,14 @@ void IBMWatsonSpeechToTextWrapper::finishedReq() {
     int i = 0;
 }
 
-void IBMWatsonSpeechToTextWrapper::authRequired(QNetworkReply *reply, QAuthenticator *ator)
+void IBMWatsonSpeechToText::authRequired(QNetworkReply *reply, QAuthenticator *ator)
 {
     ator->setUser("apikey");
     ator->setPassword(apiKey);
 }
 
 #ifndef QT_NO_SSL
-void IBMWatsonSpeechToTextWrapper::sslErrors(QNetworkReply *, const QList<QSslError> &errors)
+void IBMWatsonSpeechToText::sslErrors(QNetworkReply *, const QList<QSslError> &errors)
 {
     QString errorString;
     for (const QSslError &error : errors) {
@@ -86,7 +89,7 @@ void IBMWatsonSpeechToTextWrapper::sslErrors(QNetworkReply *, const QList<QSslEr
 }
 #endif
 
-std::string IBMWatsonSpeechToTextWrapper::GetAnswerFromResponse(){
+std::string IBMWatsonSpeechToText::GetAnswerFromResponse(){
     QJsonDocument doc = QJsonDocument::fromJson(response.toUtf8());
     QJsonObject jObj = doc.object();
     response.clear();

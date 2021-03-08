@@ -3,21 +3,34 @@
 
 GeneralAIVirtualAssistant::GeneralAIVirtualAssistant()
 {
-    unqLocalVA.reset(VirtualAssistanFactoryMethod::CreateVirtualAssistant(E_VA_TYPE::LOCAL));
-    unqLocalVA->Initialize();
+    m_unqLocalVA.reset(VirtualAssistanFactoryMethod::CreateVirtualAssistant(E_VA_TYPE::LOCAL));
+    m_unqLocalVA->Initialize();
 
-    unqWebVA.reset(VirtualAssistanFactoryMethod::CreateVirtualAssistant(E_VA_TYPE::WEB));
-    unqWebVA->Initialize();
+    m_unqWebVA.reset(VirtualAssistanFactoryMethod::CreateVirtualAssistant(E_VA_TYPE::WEB));
+    m_unqWebVA->Initialize();
+
+    m_unqAudioRecorder.reset(new AudioRecorder);
+    m_unqAudioRecorder->Initialize();
 }
 
-std::string GeneralAIVirtualAssistant::GetLocalResponse(const std::string& input)
+std::string GeneralAIVirtualAssistant::GetLocalResponse(std::string& input, bool isRecording)
 {
-    return unqLocalVA->GetResponse(input);
+    return m_unqLocalVA->GetResponse(input,isRecording);
 }
 
-std::string GeneralAIVirtualAssistant::GetWebResponse(const std::string&)
+std::string GeneralAIVirtualAssistant::GetWebResponse(std::string& input, bool isRecording)
 {
-    return unqWebVA->GetResponse("");
+    return m_unqWebVA->GetResponse(input, isRecording);
+}
+
+int GeneralAIVirtualAssistant::StartRecording()
+{
+    return m_unqAudioRecorder->StartRecording();
+}
+
+void GeneralAIVirtualAssistant::StopRecording()
+{
+    m_unqAudioRecorder->StopRecording();
 }
 
 bool GeneralAIVirtualAssistant::SetupProfileData(const std::string& name, int age){

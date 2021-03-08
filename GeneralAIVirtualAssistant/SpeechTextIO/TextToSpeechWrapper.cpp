@@ -1,11 +1,16 @@
-#include "generaltexttospeechwrapper.h"
+#include "TextToSpeechWrapper.h"
 
-GeneralTextToSpeechWrapper::GeneralTextToSpeechWrapper()
+TextToSpeechWrapper::TextToSpeechWrapper()
 {
 
 }
 
-void GeneralTextToSpeechWrapper::ConvertTextToSpeech(const std::string &response)
+int TextToSpeechWrapper::Initialize()
+{
+    return 1;
+}
+
+void TextToSpeechWrapper::ConvertTextToSpeech(const std::string &response)
 {
     //convert text to QString
     QString qResponse(response.data());

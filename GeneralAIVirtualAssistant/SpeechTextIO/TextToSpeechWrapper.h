@@ -5,10 +5,12 @@
 #include <QTextToSpeech>
 #include <QThread>
 
-class GeneralTextToSpeechWrapper: public ITextToSpeech
+class TextToSpeechWrapper: public ITextToSpeech
 {
 public:
-    GeneralTextToSpeechWrapper();
+    TextToSpeechWrapper();
+
+    int Initialize() override;
     void ConvertTextToSpeech(const std::string&) override;
 };
 

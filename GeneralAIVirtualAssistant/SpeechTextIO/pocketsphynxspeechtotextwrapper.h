@@ -30,7 +30,7 @@ public:
     ~PocketSphynxSpeechToTextWrapper();
 
     int Initialize() override;
-    std::string ConvertSpeechToText(const void*) override;
+    std::string ConvertSpeechToText() override;
 private:
     QLibrary*           sphinxLib = nullptr;
     QLibrary*           pocketLib = nullptr;
