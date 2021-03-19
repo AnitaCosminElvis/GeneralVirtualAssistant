@@ -23,6 +23,18 @@ SOURCES += \
     SpeechTextIO/SpeechToTextWrapper.cpp \
     SpeechTextIO/TextToSpeechWrapper.cpp \
     SpeechTextIO/pocketsphynxspeechtotextwrapper.cpp \
+    Utils/FileUtility.cpp \
+    Utils/ProcessUtility.cpp \
+    Utils/WebClient.cpp \
+    VACommands/CommandInvoker.cpp \
+    VACommands/VAAbstractResourceFileCommand.cpp \
+    VACommands/VACommandsFactory.cpp \
+    VACommands/VADefaultOpenDocumentCommand.cpp \
+    VACommands/VADefaultPlayAudioCommand.cpp \
+    VACommands/VADefaultPlayVideoCommand.cpp \
+    VACommands/VADefaultStartAppCommand.cpp \
+    VACommands/VADefaultViewPictureCommand.cpp \
+    VACommands/VAWebWikiSearchCommand.cpp \
     WebVA/webvirtualassistant.cpp \
     SpeechTextIO/audiorecorder.cpp \
     generalaivirtualassistant.cpp \
@@ -32,6 +44,7 @@ SOURCES += \
 HEADERS += \
     Data/Defines.h \
     Data/Enums.h \
+    Data/Structs.h \
     GeneralAIVirtualAssistant_global.h \
     LocalVA/localvirtualassistant.h \
     SpeechTextIO/IBMWatsonSpeechToText.h \
@@ -40,6 +53,19 @@ HEADERS += \
     SpeechTextIO/SpeechToTextWrapper.h \
     SpeechTextIO/TextToSpeechWrapper.h \
     SpeechTextIO/pocketsphynxspeechtotextwrapper.h \
+    Utils/FileUtility.h \
+    Utils/ProcessUtility.h \
+    Utils/WebClient.h \
+    VACommands/CommandInvoker.h \
+    VACommands/IVACommand.h \
+    VACommands/VAAbstractResourceFileCommand.h \
+    VACommands/VACommandsFactory.h \
+    VACommands/VADefaultOpenDocumentCommand.h \
+    VACommands/VADefaultPlayAudioCommand.h \
+    VACommands/VADefaultPlayVideoCommand.h \
+    VACommands/VADefaultStartAppCommand.h \
+    VACommands/VADefaultViewPictureCommand.h \
+    VACommands/VAWebWikiSearchCommand.h \
     WebVA/webvirtualassistant.h \
     SpeechTextIO/audiorecorder.h \
     generalaivirtualassistant.h \

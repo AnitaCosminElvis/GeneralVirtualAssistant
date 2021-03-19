@@ -3,6 +3,7 @@
 
 #include "ISpeechToText.h"
 #include "Data/Defines.h"
+#include "../Utils/WebClient.h"
 
 #include <memory>
 #include <QNetworkAccessManager>
@@ -22,21 +23,12 @@ public:
 private:
     std::string GetAnswerFromResponse();
 
-public slots:
-    void finishedReq();
-    void authRequired(QNetworkReply *reply, QAuthenticator *ator);
-
-#ifndef QT_NO_SSL
-    void sslErrors(QNetworkReply *, const QList<QSslError> &errors);
-#endif
-
 private:
-    QNetworkAccessManager   manager;
-    QNetworkReply*          reply = nullptr;
-    QUrl                    url;
-    QString                 apiKey;
-    QString                 headerContent;
-    QString                 response;
+    std::unique_ptr<WebClient>      m_webClient;
+    QUrl                            m_url;
+    QString                         m_apiKey;
+    QString                         m_headerContent;
+    QString                         m_response;
 };
 
 #endif // IBMWATSONSPEECHTOTEXTWRAPPER_H

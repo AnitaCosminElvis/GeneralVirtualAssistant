@@ -33,7 +33,7 @@ private:
     QString                         audioCodec      = "audio/pcm";
     QString                         fileContainer   = "audio/x-wav";
     int                             sampleRate      = 16000;
-    int                             bitRate         = 128000;
+    int                             bitRate         = 196000;
     int                             channelCount    = 1;
 };
 

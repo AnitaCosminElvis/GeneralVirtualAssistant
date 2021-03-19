@@ -4,6 +4,7 @@
 #include "ITextToSpeech.h"
 #include <QTextToSpeech>
 #include <QThread>
+#include <memory>
 
 class TextToSpeechWrapper: public ITextToSpeech
 {
@@ -12,6 +13,11 @@ public:
 
     int Initialize() override;
     void ConvertTextToSpeech(const std::string&) override;
+    bool Stop() override;
+
+private:
+    std::unique_ptr<QTextToSpeech>  m_pSpeech;
+
 };
 
 #endif // GENERALTEXTTOSPEECHWRAPPER_H

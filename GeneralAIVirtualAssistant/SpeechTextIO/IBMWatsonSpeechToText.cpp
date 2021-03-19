@@ -10,24 +10,19 @@
 
 IBMWatsonSpeechToText::IBMWatsonSpeechToText()
 {
-    url.setUrl("");
+    m_url.setUrl("");
 
-    apiKey = "";
+    m_apiKey = "";
 
-    headerContent = "audio/wav";
+    m_headerContent = "audio/wav";
+
+    m_webClient.reset(new WebClient);
 }
 
 int IBMWatsonSpeechToText::Initialize()
 {
-
-    bool bconnect = connect(&manager,    SIGNAL(authenticationRequired(QNetworkReply*,QAuthenticator*)),
-            this,       SLOT(authRequired(QNetworkReply*,QAuthenticator*)));
-
-#ifndef QT_NO_SSL
-    bconnect = connect(&manager,      &QNetworkAccessManager::sslErrors,
-            this,       &IBMWatsonSpeechToText::sslErrors);
-#endif
-
+    m_webClient->Initialize();
+    m_webClient->SetCredentials("apikey", m_apiKey);
     return 1;
 }
 
@@ -39,60 +34,16 @@ std::string IBMWatsonSpeechToText::ConvertSpeechToText()
 
     if (!file->open(QIODevice::ReadWrite)) return "";
 
-    QEventLoop loop;
-    QNetworkRequest request;
-    request.setHeader(QNetworkRequest::ContentTypeHeader, headerContent);
-    request.setUrl(url);
-
-    reply = manager.post(request,file->readAll());
-
-    bool bconn = connect(reply, &QNetworkReply::finished, this, &IBMWatsonSpeechToText::finishedReq);
-
-    bconn = connect(reply , &QNetworkReply::finished, &loop, &QEventLoop::quit);
-
-    loop.exec();
+    m_response = m_webClient->POST(m_url,m_headerContent, file->readAll());
 
     return GetAnswerFromResponse();
 }
 
 
-void IBMWatsonSpeechToText::finishedReq() {
-    if (reply->error()) {
-        response = reply->errorString();
-        return;
-    }
-
-    response = reply->readAll();
-    int i = 0;
-}
-
-void IBMWatsonSpeechToText::authRequired(QNetworkReply *reply, QAuthenticator *ator)
-{
-    ator->setUser("apikey");
-    ator->setPassword(apiKey);
-}
-
-#ifndef QT_NO_SSL
-void IBMWatsonSpeechToText::sslErrors(QNetworkReply *, const QList<QSslError> &errors)
-{
-    QString errorString;
-    for (const QSslError &error : errors) {
-        if (!errorString.isEmpty())
-            errorString += '\n';
-        errorString += error.errorString();
-    }
-
-    qDebug() << errorString;
-
-    reply->ignoreSslErrors();
-
-}
-#endif
-
 std::string IBMWatsonSpeechToText::GetAnswerFromResponse(){
-    QJsonDocument doc = QJsonDocument::fromJson(response.toUtf8());
+    QJsonDocument doc = QJsonDocument::fromJson(m_response.toUtf8());
     QJsonObject jObj = doc.object();
-    response.clear();
+    m_response.clear();
 
     if (jObj.contains("results") && jObj["results"].isArray()) {
         QJsonArray resultsArray = jObj["results"].toArray();
@@ -103,12 +54,12 @@ std::string IBMWatsonSpeechToText::GetAnswerFromResponse(){
         {
             if (transVal.toObject().contains("transcript"))
             {
-                response = transVal.toObject().value("transcript").toString();
+                m_response = transVal.toObject().value("transcript").toString();
                 break;
             }
         }
     }
 
-    return response.toLocal8Bit().data();
+    return m_response.toLocal8Bit().data();
 }
 
