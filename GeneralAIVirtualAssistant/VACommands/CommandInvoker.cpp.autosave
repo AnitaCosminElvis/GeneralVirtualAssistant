@@ -9,8 +9,8 @@ CommandInvoker::CommandInvoker()
 
 int CommandInvoker::Initialize()
 {
-    U_COMMAND_TYPE uCmdCount;
-    U_COMMAND_TYPE uCmdType;
+    U_LOCAL_COMMAND_TYPE uCmdCount;
+    U_LOCAL_COMMAND_TYPE uCmdType;
 
     uCmdCount.command_type = E_COMMAND_TYPE::COUNT;
 
@@ -39,7 +39,7 @@ bool CommandInvoker::ExecuteCommand(const std::string &input, E_COMMAND_TYPE cmd
 {
     if (E_COMMAND_TYPE::UNDEFINED == cmdType) return false;
 
-    U_COMMAND_TYPE uCmdType;
+    U_LOCAL_COMMAND_TYPE uCmdType;
     uCmdType.command_type = cmdType;
 
     if (E_COMMAND_TYPE::CUSTOM != cmdType)
@@ -55,7 +55,7 @@ bool CommandInvoker::StopCommand(E_COMMAND_TYPE cmdType)
 {
     if (E_COMMAND_TYPE::UNDEFINED == cmdType) return false;
 
-    U_COMMAND_TYPE uCmdType;
+    U_LOCAL_COMMAND_TYPE uCmdType;
     uCmdType.command_type = cmdType;
 
     if (E_COMMAND_TYPE::CUSTOM != cmdType)
@@ -69,7 +69,7 @@ bool CommandInvoker::StopCommand(E_COMMAND_TYPE cmdType)
 
 std::list<std::string> CommandInvoker::GetResult(E_COMMAND_TYPE cmdType)
 {
-    U_COMMAND_TYPE uCmdType;
+    U_LOCAL_COMMAND_TYPE uCmdType;
     uCmdType.command_type = cmdType;
 
     return m_DefaultCommands[uCmdType.nVal]->GetCommandResult();

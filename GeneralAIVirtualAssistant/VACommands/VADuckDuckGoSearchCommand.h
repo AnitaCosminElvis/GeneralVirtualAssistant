@@ -1,21 +1,19 @@
-#ifndef VAWEBWIKISEARCHCOMMAND_H
-#define VAWEBWIKISEARCHCOMMAND_H
+#ifndef VAGOOGLESEARCHCOMMAND_H
+#define VAGOOGLESEARCHCOMMAND_H
 
 #include "IVACommand.h"
 #include "../Data/Structs.h"
 #include "../Utils/WebClient.h"
+#include "VAWebWikiSearchCommand.h"
 
 #include <QUrl>
 #include <memory>
+#include <QRegularExpression>
 
-#define FIND_COMMAND    "find"
-#define RESOURCE_TYPE   "wiki"
-#define MIN_WORD_COUNT  3
-
-class VAWebWikiSearchCommand: public IVACommand
+class VADuckDuckGoSearchCommand: public IVACommand
 {
 public:
-    VAWebWikiSearchCommand();
+    VADuckDuckGoSearchCommand();
 
     int                     Initialize() override;
     bool                    ContainsCommand(const std::string& input) override;
@@ -27,8 +25,11 @@ public:
 private:
     std::unique_ptr<WebClient>          m_pWebClient;
     QString                             m_qsUrl;
+    QString                             m_qsParams;
     S_BASE_COMMAND_DATA                 m_BaseCmdData;
     std::list<std::string>              m_result;
+    QRegularExpression                  m_hrefRegExp;
+    VAWebWikiSearchCommand              m_wikiApi;
 };
 
-#endif // VAWEBWIKISEARCHCOMMAND_H
+#endif // VAGOOGLESEARCHCOMMAND_H

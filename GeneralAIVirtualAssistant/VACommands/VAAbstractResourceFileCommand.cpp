@@ -55,7 +55,7 @@ bool VAAbstractResourceFileCommand::StopCommand()
     return true;
 }
 
-E_COMMAND_TYPE VAAbstractResourceFileCommand::GetCommandType()
+int VAAbstractResourceFileCommand::GetCommandType()
 {
     return m_BaseCmdData.cmdType;
 }

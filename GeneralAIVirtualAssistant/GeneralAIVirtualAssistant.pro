@@ -1,5 +1,5 @@
 QT  -= gui
-QT  += core xml network texttospeech multimedia
+QT  += core xml network texttospeech multimedia xmlpatterns
 
 TEMPLATE = lib
 DEFINES += GENERALAIVIRTUALASSISTANT_LIBRARY
@@ -18,15 +18,18 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    InputFilter.cpp \
     LocalVA/localvirtualassistant.cpp \
     SpeechTextIO/IBMWatsonSpeechToText.cpp \
     SpeechTextIO/SpeechToTextWrapper.cpp \
     SpeechTextIO/TextToSpeechWrapper.cpp \
     SpeechTextIO/pocketsphynxspeechtotextwrapper.cpp \
     Utils/FileUtility.cpp \
+    Utils/JSONHandler.cpp \
     Utils/ProcessUtility.cpp \
     Utils/WebClient.cpp \
-    VACommands/CommandInvoker.cpp \
+    VACommands/CommandsInvokerFactory.cpp \
+    VACommands/LocalCommandInvoker.cpp \
     VACommands/VAAbstractResourceFileCommand.cpp \
     VACommands/VACommandsFactory.cpp \
     VACommands/VADefaultOpenDocumentCommand.cpp \
@@ -34,7 +37,9 @@ SOURCES += \
     VACommands/VADefaultPlayVideoCommand.cpp \
     VACommands/VADefaultStartAppCommand.cpp \
     VACommands/VADefaultViewPictureCommand.cpp \
+    VACommands/VADuckDuckGoSearchCommand.cpp \
     VACommands/VAWebWikiSearchCommand.cpp \
+    VACommands/WebCommandInvoker.cpp \
     WebVA/webvirtualassistant.cpp \
     SpeechTextIO/audiorecorder.cpp \
     generalaivirtualassistant.cpp \
@@ -46,6 +51,7 @@ HEADERS += \
     Data/Enums.h \
     Data/Structs.h \
     GeneralAIVirtualAssistant_global.h \
+    InputFilter.h \
     LocalVA/localvirtualassistant.h \
     SpeechTextIO/IBMWatsonSpeechToText.h \
     SpeechTextIO/ISpeechToText.h \
@@ -54,10 +60,13 @@ HEADERS += \
     SpeechTextIO/TextToSpeechWrapper.h \
     SpeechTextIO/pocketsphynxspeechtotextwrapper.h \
     Utils/FileUtility.h \
+    Utils/JSONHandler.h \
     Utils/ProcessUtility.h \
     Utils/WebClient.h \
-    VACommands/CommandInvoker.h \
+    VACommands/CommandsInvokerFactory.h \
+    VACommands/ICommandInvoker.h \
     VACommands/IVACommand.h \
+    VACommands/LocalCommandInvoker.h \
     VACommands/VAAbstractResourceFileCommand.h \
     VACommands/VACommandsFactory.h \
     VACommands/VADefaultOpenDocumentCommand.h \
@@ -65,7 +74,9 @@ HEADERS += \
     VACommands/VADefaultPlayVideoCommand.h \
     VACommands/VADefaultStartAppCommand.h \
     VACommands/VADefaultViewPictureCommand.h \
+    VACommands/VADuckDuckGoSearchCommand.h \
     VACommands/VAWebWikiSearchCommand.h \
+    VACommands/WebCommandInvoker.h \
     WebVA/webvirtualassistant.h \
     SpeechTextIO/audiorecorder.h \
     generalaivirtualassistant.h \

@@ -7,7 +7,7 @@
 
 struct S_BASE_COMMAND_DATA
 {
-    E_COMMAND_TYPE                      cmdType;
+    int                                 cmdType;
     QString                             qsVerbCommand;
     QString                             qsResourceType;
     int                                 nMinWordCount;

@@ -4,11 +4,15 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
+#include "../Utils/JSONHandler.h"
 
 VAWebWikiSearchCommand::VAWebWikiSearchCommand()
 {
+    U_WEB_COMMAND_TYPE cmdType;
+    cmdType.command_type = E_WEB_COMMAND_TYPE::FIND_WIKI;
+    m_BaseCmdData.cmdType = cmdType.nVal;
+
     m_qsUrl = "https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exlimit=max&explaintext&exintro&redirects=&titles=";
-    m_BaseCmdData.cmdType = E_COMMAND_TYPE::FIND_WIKI;
     m_BaseCmdData.qsVerbCommand = FIND_COMMAND;
     m_BaseCmdData.qsResourceType = RESOURCE_TYPE;
     m_BaseCmdData.nMinWordCount = MIN_WORD_COUNT;
@@ -46,16 +50,14 @@ bool VAWebWikiSearchCommand::ExecuteCommand(const std::string &input)
 
         QString qsResponse = m_pWebClient->GET(url,"");
 
-        QJsonDocument doc = QJsonDocument::fromJson(qsResponse.toUtf8());
-        QJsonObject jObj = doc.object();
-
-        QJsonObject query = jObj["query"].toObject();
-        QJsonObject pages = query["pages"].toObject();
-        QJsonObject page = pages.begin().value().toObject();
-        QString extract = page["extract"].toString();
-
+        JSONHandler jsonParser;
         m_result.clear();
-        m_result.push_back(extract.toLocal8Bit().data());
+
+        if (jsonParser.LoadJSONFromString(qsResponse)){
+            QList<QString> jsonPath = {"query","pages",".","extract"};
+            QString extract = jsonParser.GetValueByJSONPath(jsonPath);
+            m_result.push_back(extract.toLocal8Bit().data());
+        }
 
         return true;
     }
@@ -68,7 +70,7 @@ bool VAWebWikiSearchCommand::StopCommand()
     return true;
 }
 
-E_COMMAND_TYPE VAWebWikiSearchCommand::GetCommandType()
+int VAWebWikiSearchCommand::GetCommandType()
 {
     return m_BaseCmdData.cmdType;
 }

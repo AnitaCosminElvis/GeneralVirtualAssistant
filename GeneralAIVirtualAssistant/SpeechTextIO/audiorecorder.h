@@ -4,10 +4,6 @@
 #include <QAudioRecorder>
 #include <QDir>
 #include <QUrl>
-#include <QJsonDocument>
-#include <QJsonValue>
-#include <QJsonArray>
-#include <QJsonObject>
 #include <QVariantMap>
 
 #include "../Data/Defines.h"
@@ -25,16 +21,14 @@ private:
     void LoadAudioSettings();
     void SetupAudioSettings();
 
-
-
 private:
-    QAudioRecorder*                 audioRecorder   = nullptr;
-    QAudioEncoderSettings           settings;
-    QString                         audioCodec      = "audio/pcm";
-    QString                         fileContainer   = "audio/x-wav";
-    int                             sampleRate      = 16000;
-    int                             bitRate         = 196000;
-    int                             channelCount    = 1;
+    QAudioRecorder*                 m_audioRecorder   = nullptr;
+    QAudioEncoderSettings           m_settings;
+    QString                         m_audioCodec      = "audio/pcm";
+    QString                         m_fileContainer   = "audio/x-wav";
+    int                             m_sampleRate      = 16000;
+    int                             m_bitRate         = 196000;
+    int                             m_channelCount    = 1;
 };
 
 #endif // AUDIORECORDER_H

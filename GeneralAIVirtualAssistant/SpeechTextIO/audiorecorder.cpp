@@ -1,9 +1,9 @@
 #include "audiorecorder.h"
-
+#include "../Utils/JSONHandler.h"
 
 AudioRecorder::AudioRecorder()
 {
-    audioRecorder = new QAudioRecorder();
+    m_audioRecorder = new QAudioRecorder();
 }
 
 int AudioRecorder::Initialize()
@@ -17,53 +17,46 @@ int AudioRecorder::Initialize()
 
 void AudioRecorder::LoadAudioSettings()
 {
-    std::unique_ptr<QFile>  file(new QFile(QDir::currentPath() + DATA_PATH + AUDIO_SET_PATH));
+    JSONHandler jsonParser;
+    QString path = QDir::currentPath() + DATA_PATH + AUDIO_SET_PATH;
 
-    if (!file->open(QIODevice::ReadWrite)) return;
+    if (jsonParser.LoadJSONFromSettingsFile(path)){
 
-    QJsonDocument doc = QJsonDocument::fromJson(file->readAll());
-    QJsonObject jObj = doc.object();
+        QString audioCodec = jsonParser.GetValueByJSONPath({"audioCodec"});
+        if (!audioCodec.isEmpty()) m_audioCodec = audioCodec;
 
-    if (jObj.contains("audioCodec") && jObj["audioCodec"].isString()) {
-        audioCodec = jObj["audioCodec"].toString();
-    }
+        QString sampleRate = jsonParser.GetValueByJSONPath({"sampleRate"});
+        if (!sampleRate.isEmpty()) m_sampleRate = sampleRate.toInt();
 
+        QString channelCount = jsonParser.GetValueByJSONPath({"channelCount"});
+        if (!channelCount.isEmpty()) m_channelCount = channelCount.toInt();
 
-    if (jObj.contains("sampleRate") && jObj["sampleRate"].isString()) {
-        sampleRate = jObj["sampleRate"].toInt();
-    }
+        QString bitRate = jsonParser.GetValueByJSONPath({"bitRate"});
+        if (!bitRate.isEmpty()) m_bitRate = bitRate.toInt();
 
-    if (jObj.contains("channelCount") && jObj["channelCount"].isString()) {
-        channelCount = jObj["channelCount"].toInt();
-    }
-
-    if (jObj.contains("bitRate") && jObj["bitRate"].isString()) {
-        bitRate = jObj["bitRate"].toInt();
-    }
-
-    if (jObj.contains("fileContainer") && jObj["fileContainer"].isString()) {
-        fileContainer = jObj["fileContainer"].toString();
+        QString fileContainer = jsonParser.GetValueByJSONPath({"fileContainer"});
+        if (!fileContainer.isEmpty()) m_fileContainer = fileContainer;
     }
 }
 
 void AudioRecorder::SetupAudioSettings()
 {
-    settings.setCodec(audioCodec);
-    settings.setSampleRate(sampleRate);
-    settings.setChannelCount(channelCount);
-    settings.setBitRate(bitRate);
-    settings.setQuality(QMultimedia::EncodingQuality::VeryHighQuality);
-    settings.setEncodingMode( QMultimedia::ConstantBitRateEncoding);
-    audioRecorder->setEncodingSettings(settings, QVideoEncoderSettings(), fileContainer);
+    m_settings.setCodec(m_audioCodec);
+    m_settings.setSampleRate(m_sampleRate);
+    m_settings.setChannelCount(m_channelCount);
+    m_settings.setBitRate(m_bitRate);
+    m_settings.setQuality(QMultimedia::EncodingQuality::VeryHighQuality);
+    m_settings.setEncodingMode( QMultimedia::ConstantBitRateEncoding);
+    m_audioRecorder->setEncodingSettings(m_settings, QVideoEncoderSettings(), m_fileContainer);
     QString path = QDir::currentPath() + DATA_PATH +RECORD_PATH;
 
-    audioRecorder->setOutputLocation(QUrl::fromLocalFile(path));
+    m_audioRecorder->setOutputLocation(QUrl::fromLocalFile(path));
 }
 
 int AudioRecorder::StartRecording()
 {
-    if (audioRecorder->state() == QMediaRecorder::StoppedState){
-        audioRecorder->record();
+    if (m_audioRecorder->state() == QMediaRecorder::StoppedState){
+        m_audioRecorder->record();
         return 1;
     }else{
         return 0;
@@ -72,5 +65,5 @@ int AudioRecorder::StartRecording()
 
 void AudioRecorder::StopRecording()
 {
-    audioRecorder->stop();
+    m_audioRecorder->stop();
 }

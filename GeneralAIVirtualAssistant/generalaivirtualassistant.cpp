@@ -1,26 +1,64 @@
 #include "generalaivirtualassistant.h"
-
+#include "SpeechTextIO/TextToSpeechWrapper.h"
+#include "SpeechTextIO/SpeechToTextWrapper.h"
 
 GeneralAIVirtualAssistant::GeneralAIVirtualAssistant()
 {
     m_unqLocalVA.reset(VirtualAssistanFactoryMethod::CreateVirtualAssistant(E_VA_TYPE::LOCAL));
-    m_unqLocalVA->Initialize();
-
     m_unqWebVA.reset(VirtualAssistanFactoryMethod::CreateVirtualAssistant(E_VA_TYPE::WEB));
-    m_unqWebVA->Initialize();
-
     m_unqAudioRecorder.reset(new AudioRecorder);
-    m_unqAudioRecorder->Initialize();
+    m_InputFilter.reset(new InputFilter);
+
+    m_pTextToSpeech.reset(new TextToSpeechWrapper);
+    m_pSpeechToText.reset(new SpeechToTextWrapper);
+}
+
+bool GeneralAIVirtualAssistant::Initialize()
+{
+    if(!m_unqLocalVA->Initialize()) return false;
+    if(!m_unqWebVA->Initialize()) return false;
+    if(!m_unqAudioRecorder->Initialize()) return false;
+    if(!m_InputFilter->Initialize()) return false;
+    if(!m_pTextToSpeech->Initialize()) return false;
+    if(!m_pSpeechToText->Initialize()) return false;
+
+    return true;
 }
 
 std::string GeneralAIVirtualAssistant::GetLocalResponse(std::string& input, bool isRecording)
 {
-    return m_unqLocalVA->GetResponse(input,isRecording);
+    if (isRecording){
+        input = m_pSpeechToText->ConvertSpeechToText();
+    }
+
+    std::string response = "Invalid Input!";
+
+    if (m_InputFilter->CanContinue(input.data())) response =  m_unqLocalVA->GetResponse(input);
+
+    if (response == VA_STOP_CMD_SUCCESS || response == VA_CMD_PARTIAL){
+        m_pTextToSpeech->Stop();
+        m_pTextToSpeech->ConvertTextToSpeech(response);
+    }else m_pTextToSpeech->ConvertTextToSpeech(response);
+
+    return response;
 }
 
 std::string GeneralAIVirtualAssistant::GetWebResponse(std::string& input, bool isRecording)
 {
-    return m_unqWebVA->GetResponse(input, isRecording);
+    if (isRecording){
+        input = m_pSpeechToText->ConvertSpeechToText();
+    }
+
+    std::string response = "Invalid Input!";
+
+    if (m_InputFilter->CanContinue(input.data())) response =  m_unqWebVA->GetResponse(input);
+
+    if (response == VA_STOP_CMD_SUCCESS || response == VA_CMD_PARTIAL){
+        m_pTextToSpeech->Stop();
+        m_pTextToSpeech->ConvertTextToSpeech(response);
+    }else m_pTextToSpeech->ConvertTextToSpeech(response);
+
+    return response;
 }
 
 int GeneralAIVirtualAssistant::StartRecording()

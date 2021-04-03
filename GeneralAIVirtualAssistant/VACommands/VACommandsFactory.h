@@ -6,6 +6,6 @@
 
 class VACommandsFactory{
 public:
-    static IVACommand* CreateVACommand(E_COMMAND_TYPE commandType);
+    static IVACommand* CreateVACommand(E_COMMAND_INVOKER_TYPE invokerType, int commandType);
 };
 #endif // VACOMMANDSFACTORY_H

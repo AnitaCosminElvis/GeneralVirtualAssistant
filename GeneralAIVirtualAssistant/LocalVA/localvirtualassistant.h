@@ -8,7 +8,7 @@
 #include "SpeechTextIO/ITextToSpeech.h"
 #include "SpeechTextIO/ISpeechToText.h"
 #include "../VACommands/IVACommand.h"
-#include "../VACommands/CommandInvoker.h"
+#include "../VACommands/LocalCommandInvoker.h"
 #include "../Data/Defines.h"
 
 class LocalVirtualAssistant : public IVirtualAssistant
@@ -18,17 +18,15 @@ public:
     ~LocalVirtualAssistant();
 
     bool Initialize() override;
-    std::string GetResponse(std::string& input, bool isRecording = true) override;
+    std::string GetResponse(std::string& input) override;
 
 private:
-    std::string GetResponeFromInput(std::string& input);
+    std::string GetResponseFromInput(std::string& input);
 
 private:
-    std::unique_ptr<AIMLParser>     m_pAimlParser;
-    std::unique_ptr<ITextToSpeech>  m_pTextToSpeech;
-    std::unique_ptr<ISpeechToText>  m_pSpeechToText;
-    std::unique_ptr<CommandInvoker> m_pCommandInvoker;
-    E_COMMAND_TYPE                  m_lastCmdType;
+    std::unique_ptr<AIMLParser>             m_pAimlParser;
+    std::unique_ptr<ICommandInvoker>        m_pCommandInvoker;
+    int                                     m_lastCmdType;
 };
 
 #endif // LOCALVIRTUALASSISTANT_H

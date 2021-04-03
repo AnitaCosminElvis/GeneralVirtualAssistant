@@ -2,10 +2,10 @@
 #define WEBVIRTUALASSISTANT_H
 
 #include "../ivirtualassistant.h"
-#include "../Data/Defines.h"
-#include "SpeechTextIO/IBMWatsonSpeechToText.h"
 #include "SpeechTextIO/ITextToSpeech.h"
 #include "SpeechTextIO/ISpeechToText.h"
+#include "../VACommands/IVACommand.h"
+#include "../VACommands/LocalCommandInvoker.h"
 #include "../Data/Defines.h"
 
 class WebVirtualAssistant : public IVirtualAssistant
@@ -15,11 +15,14 @@ public:
     ~WebVirtualAssistant();
 
     bool Initialize() override;
-    std::string GetResponse(std::string& input, bool isRecording = true) override;
+    std::string GetResponse(std::string& input) override;
 
 private:
-    std::unique_ptr<ITextToSpeech>  m_pTextToSpeech;
-    std::unique_ptr<ISpeechToText>  m_pSpeechToText;
+    std::string GetResponseFromInput(std::string &input);
+
+private:
+    std::unique_ptr<ICommandInvoker>            m_pCommandInvoker;
+    int                                         m_lastCmdType;
 };
 
 #endif // WEBVIRTUALASSISTANT_H

@@ -16,7 +16,7 @@ public:
     bool ContainsCommand(const std::string &input) override;
     bool ExecuteCommand(const std::string &input) override;
     bool StopCommand() override;
-    E_COMMAND_TYPE GetCommandType() override;
+    int GetCommandType() override;
     std::list<std::string> GetCommandResult() override;
 
 protected:

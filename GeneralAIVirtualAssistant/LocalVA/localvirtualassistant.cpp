@@ -1,14 +1,15 @@
 #include "localvirtualassistant.h"
-#include "SpeechTextIO/TextToSpeechWrapper.h"
-#include "SpeechTextIO/SpeechToTextWrapper.h"
 #include "../VACommands/VACommandsFactory.h"
+#include "../VACommands/ICommandInvoker.h"
+#include "../VACommands/CommandsInvokerFactory.h"
+
+
 
 LocalVirtualAssistant::LocalVirtualAssistant()
 {
     m_pAimlParser.reset(new AIMLParser);
-    m_pTextToSpeech.reset(new TextToSpeechWrapper);
-    m_pSpeechToText.reset(new SpeechToTextWrapper);
-    m_pCommandInvoker.reset(new CommandInvoker);
+    m_pCommandInvoker.reset(CommandsInvokerFactory::CreateVACommand(E_COMMAND_INVOKER_TYPE::LOCAL));
+    m_lastCmdType = 0;
 }
 
 LocalVirtualAssistant::~LocalVirtualAssistant()
@@ -25,44 +26,33 @@ bool LocalVirtualAssistant::Initialize()
         return false;
     }
 
-    m_pTextToSpeech->Initialize();
-    m_pSpeechToText->Initialize();
-    m_pCommandInvoker->Initialize();
-
-    return true;
+    return m_pCommandInvoker->Initialize();
 }
 
-std::string LocalVirtualAssistant::GetResponse(std::string &input, bool isRecording)
+std::string LocalVirtualAssistant::GetResponse(std::string &input)
 {
-    if (isRecording){
-        input = m_pSpeechToText->ConvertSpeechToText();
-    }
-
-    std::string response = GetResponeFromInput(input);
-
-    m_pTextToSpeech->ConvertTextToSpeech(response);
-
-    return response;
+    return GetResponseFromInput(input);
 }
 
-std::string LocalVirtualAssistant::GetResponeFromInput(std::string &input)
+std::string LocalVirtualAssistant::GetResponseFromInput(std::string &input)
 {
     std::string response;
-
+    U_LOCAL_COMMAND_TYPE cmdType;
     if (!input.empty())
     {
         if (input.rfind("stop",0) == 0)
         {
-            if (m_pCommandInvoker->StopCommand(m_lastCmdType)) response = VA_CMD_SUCCESS;
-            else response  =VA_CMD_PARTIAL;
-
-            m_pTextToSpeech->Stop();
+            if (m_pCommandInvoker->StopCommand(m_lastCmdType)) response = VA_STOP_CMD_SUCCESS;
+            else response  = VA_CMD_PARTIAL;
         }
-        else if (m_lastCmdType = m_pCommandInvoker->IsCommand(input); m_lastCmdType != E_COMMAND_TYPE::UNDEFINED)
+        else if (cmdType.nVal = m_pCommandInvoker->IsCommand(input); cmdType.command_type != E_LOCAL_COMMAND_TYPE::UNDEFINED)
         {
-            (m_pCommandInvoker->ExecuteCommand(input,m_lastCmdType))? (response = VA_CMD_SUCCESS) : (response = VA_CMD_FAIL);
-            std::list<std::string> list = m_pCommandInvoker->GetResult(m_lastCmdType);
-            response += list.front();
+            m_lastCmdType = cmdType.nVal;
+            if (m_pCommandInvoker->ExecuteCommand(input,cmdType.nVal)){
+                response = VA_CMD_SUCCESS;
+                std::list<std::string> list = m_pCommandInvoker->GetResult(cmdType.nVal);
+                response += list.front();
+            }else response = VA_CMD_FAIL;
         }else{
             response = m_pAimlParser->getResponse(input.data()).toLocal8Bit().data();
         }

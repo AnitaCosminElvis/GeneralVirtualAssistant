@@ -14,6 +14,8 @@ public:
     ChatModel(QObject *parent = nullptr);
     ~ChatModel();
 
+    bool Initialize();
+
     QString GetLocalResponse(std::string& input, bool isRecording = true);
     QString GetWebResponse(std::string& input, bool isRecording = true);
 

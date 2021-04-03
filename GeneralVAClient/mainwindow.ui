@@ -17,7 +17,7 @@
    <string>General Virtual Assistant</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QPushButton" name="btnSendMessage">
+   <widget class="QPushButton" name="btnSendLocalMessage">
     <property name="enabled">
      <bool>true</bool>
     </property>
@@ -72,9 +72,9 @@
    <widget class="QTextEdit" name="te_userInput">
     <property name="geometry">
      <rect>
-      <x>10</x>
+      <x>60</x>
       <y>200</y>
-      <width>431</width>
+      <width>391</width>
       <height>51</height>
      </rect>
     </property>
@@ -131,6 +131,58 @@ p, li { white-space: pre-wrap; }
     <attribute name="verticalHeaderHighlightSections">
      <bool>false</bool>
     </attribute>
+   </widget>
+   <widget class="QPushButton" name="btnSendWebMessage">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>200</y>
+      <width>50</width>
+      <height>50</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="layoutDirection">
+     <enum>Qt::LeftToRight</enum>
+    </property>
+    <property name="autoFillBackground">
+     <bool>true</bool>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="resources.qrc">
+      <normaloff>:/icons/icn_cmd_rec_off.png</normaloff>
+      <normalon>:/icons/icn_cmd_rec_on.png</normalon>
+      <disabledoff>:/icons/icn_cmd_rec_x.png</disabledoff>:/icons/icn_cmd_rec_off.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>40</width>
+      <height>40</height>
+     </size>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+    <property name="checked">
+     <bool>false</bool>
+    </property>
+    <property name="autoRepeat">
+     <bool>false</bool>
+    </property>
+    <property name="autoDefault">
+     <bool>true</bool>
+    </property>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">

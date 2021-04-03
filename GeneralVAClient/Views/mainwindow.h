@@ -44,8 +44,10 @@ public slots:
     void OnFinishedGettingDataSlot(QString qsName, qint32 nAge, QString qsOccupation);
 
 private slots:
-    void on_btnSendMessage_toggled(bool checked);
+    void on_btnSendLocalMessage_toggled(bool checked);
     //void stopRecording();
+    void on_btnSendWebMessage_toggled(bool checked);
+
 private:
     bool eventFilter(QObject*, QEvent*);
     void WriteMessage(QString);

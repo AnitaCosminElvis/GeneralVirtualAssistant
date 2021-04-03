@@ -10,6 +10,11 @@ ChatModel::~ChatModel()
 {
 }
 
+bool ChatModel::Initialize()
+{
+    return m_pVirtualAssistant->Initialize();
+}
+
 QString ChatModel::GetLocalResponse(std::string& input, bool isRecording){
     return m_pVirtualAssistant->GetLocalResponse(input, isRecording).data();
 }

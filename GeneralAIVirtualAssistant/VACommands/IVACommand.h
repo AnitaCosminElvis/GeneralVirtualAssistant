@@ -12,7 +12,7 @@ public:
     virtual bool                        ContainsCommand(const std::string& input) = 0;
     virtual bool                        ExecuteCommand(const std::string& input) = 0;
     virtual bool                        StopCommand() = 0;
-    virtual E_COMMAND_TYPE              GetCommandType() = 0;
+    virtual int                         GetCommandType() = 0;
     virtual std::list<std::string>      GetCommandResult() = 0;
 
     virtual~ IVACommand() = default;

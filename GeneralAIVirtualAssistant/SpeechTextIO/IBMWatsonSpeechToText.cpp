@@ -7,6 +7,7 @@
 #include <QJsonArray>
 #include <QJsonObject>
 #include <QVariantMap>
+#include "../Utils/JSONHandler.h"
 
 IBMWatsonSpeechToText::IBMWatsonSpeechToText()
 {
@@ -39,27 +40,16 @@ std::string IBMWatsonSpeechToText::ConvertSpeechToText()
     return GetAnswerFromResponse();
 }
 
-
 std::string IBMWatsonSpeechToText::GetAnswerFromResponse(){
-    QJsonDocument doc = QJsonDocument::fromJson(m_response.toUtf8());
-    QJsonObject jObj = doc.object();
+    JSONHandler jsonParser;
+    QString response = m_response;
     m_response.clear();
 
-    if (jObj.contains("results") && jObj["results"].isArray()) {
-        QJsonArray resultsArray = jObj["results"].toArray();
-        QJsonObject jObjRes = resultsArray.at(0).toObject();
-        QJsonArray altArray = jObjRes["alternatives"].toArray();
-
-        foreach (const QJsonValue & transVal, altArray)
-        {
-            if (transVal.toObject().contains("transcript"))
-            {
-                m_response = transVal.toObject().value("transcript").toString();
-                break;
-            }
-        }
+    if (jsonParser.LoadJSONFromString(response)){
+        QList<QString> jsonPath = {"results","alternatives","transcript"};
+        response = jsonParser.GetValueByJSONPath(jsonPath);
     }
 
-    return m_response.toLocal8Bit().data();
+    return response.toLocal8Bit().data();
 }
 

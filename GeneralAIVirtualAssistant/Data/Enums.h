@@ -7,7 +7,14 @@ enum class E_VA_TYPE: int
      WEB,
 };
 
-enum class E_COMMAND_TYPE: int
+enum class E_COMMAND_INVOKER_TYPE
+{
+    UNDEFINED = -1,
+    LOCAL = 1,
+    WEB
+};
+
+enum class E_LOCAL_COMMAND_TYPE: int
 {
     UNDEFINED = -1,
     CUSTOM = 0,
@@ -16,14 +23,28 @@ enum class E_COMMAND_TYPE: int
     PLAY_AUD,
     PLAY_VID,
     VIEW_PIC,
-    FIND_WIKI,
     COUNT
 };
 
-union U_COMMAND_TYPE
+enum class E_WEB_COMMAND_TYPE: int
 {
-    E_COMMAND_TYPE  command_type;
-    int             nVal;
+    UNDEFINED = -1,
+    CUSTOM = 0,
+    FIND_WIKI,
+    DUCK_DUCK_GO,
+    COUNT
+};
+
+union U_LOCAL_COMMAND_TYPE
+{
+    E_LOCAL_COMMAND_TYPE    command_type;
+    int                     nVal;
+};
+
+union U_WEB_COMMAND_TYPE
+{
+    E_WEB_COMMAND_TYPE      command_type;
+    int                     nVal;
 };
 
 #endif // ENUMS_H

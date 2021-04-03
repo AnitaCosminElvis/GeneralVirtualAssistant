@@ -63,7 +63,7 @@ bool MainWindow::Initialize()
     SetupChatBox();
 
     //connecting signal to slots and checking if they're connected
-    bIsInitialized = connect(ui->btnSendMessage,    SIGNAL(pressed()),
+    bIsInitialized = connect(ui->btnSendLocalMessage,    SIGNAL(pressed()),
                              this,                  SLOT(OnInsertMessageSlot()),Qt::QueuedConnection);
 
     if (!bIsInitialized) return bIsInitialized;
@@ -77,6 +77,8 @@ bool MainWindow::Initialize()
                              this,              SLOT(OnCloseSlot()),Qt::QueuedConnection);
 
     if (!bIsInitialized) return bIsInitialized;
+
+    if (!m_pChatModel->Initialize()) return false;
 
     m_bIsInitialized = bIsInitialized;
 
@@ -204,16 +206,31 @@ bool MainWindow::eventFilter(QObject *obj, QEvent* event){
     return QWidget::eventFilter( obj, event ); // apply default filter
 }
 
-void MainWindow::on_btnSendMessage_toggled(bool checked)
+void MainWindow::on_btnSendLocalMessage_toggled(bool checked)
 {
     if (checked){
         if (!m_pChatModel->StartRecording()) {
-            ui->btnSendMessage->setChecked(false);
+            ui->btnSendLocalMessage->setChecked(false);
         }
     }else{
         std::string input;
         m_pChatModel->StopRecording();
         QString conversion = m_pChatModel->GetLocalResponse(input);
+
+        OnInsertAudioMsgSlot(input,conversion.toLocal8Bit().data());
+    }
+}
+
+void MainWindow::on_btnSendWebMessage_toggled(bool checked)
+{
+    if (checked){
+        if (!m_pChatModel->StartRecording()) {
+            ui->btnSendWebMessage->setChecked(false);
+        }
+    }else{
+        std::string input;
+        m_pChatModel->StopRecording();
+        QString conversion = m_pChatModel->GetWebResponse(input);
 
         OnInsertAudioMsgSlot(input,conversion.toLocal8Bit().data());
     }
