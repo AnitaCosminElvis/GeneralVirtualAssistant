@@ -2,8 +2,8 @@
 
 VADefaultPlayVideoCommand::VADefaultPlayVideoCommand()
 {
-    U_LOCAL_COMMAND_TYPE cmdType;
-    cmdType.command_type = E_LOCAL_COMMAND_TYPE::PLAY_VID;
+    U_COMMAND_TYPE cmdType;
+    cmdType.localCmdType = E_LOCAL_COMMAND_TYPE::PLAY_VID;
     m_BaseCmdData.cmdType = cmdType.nVal;
 
     m_BaseCmdData.qsVerbCommand = PLAY_COMMAND;
@@ -12,7 +12,7 @@ VADefaultPlayVideoCommand::VADefaultPlayVideoCommand()
     m_StdLocation = QStandardPaths::StandardLocation::MoviesLocation;
 }
 
-int VADefaultPlayVideoCommand::Initialize()
+int VADefaultPlayVideoCommand::Initialize(const std::string &)
 {
     return 1;
 }

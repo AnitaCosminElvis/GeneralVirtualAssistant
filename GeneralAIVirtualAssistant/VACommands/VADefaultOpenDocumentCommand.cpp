@@ -2,8 +2,8 @@
 
 VADefaultOpenDocumentCommand::VADefaultOpenDocumentCommand()
 {
-    U_LOCAL_COMMAND_TYPE cmdType;
-    cmdType.command_type = E_LOCAL_COMMAND_TYPE::OPEN_DOC;
+    U_COMMAND_TYPE cmdType;
+    cmdType.localCmdType = E_LOCAL_COMMAND_TYPE::OPEN_DOC;
     m_BaseCmdData.cmdType = cmdType.nVal;
 
     m_BaseCmdData.qsVerbCommand = OPEN_COMMAND;
@@ -12,7 +12,7 @@ VADefaultOpenDocumentCommand::VADefaultOpenDocumentCommand()
     m_StdLocation = QStandardPaths::StandardLocation::DocumentsLocation;
 }
 
-int VADefaultOpenDocumentCommand::Initialize()
+int VADefaultOpenDocumentCommand::Initialize(const std::string&)
 {
     return 1;
 }

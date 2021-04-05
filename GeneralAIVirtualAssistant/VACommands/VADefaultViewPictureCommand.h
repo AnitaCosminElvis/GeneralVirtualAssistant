@@ -15,7 +15,7 @@ class VADefaultViewPictureCommand: public VAAbstractResourceFileCommand
 public:
     VADefaultViewPictureCommand();
 
-    int Initialize() override;
+    int Initialize(const std::string& = "") override;
 };
 
 #endif // VADEFAULTVIEWPICTURECOMMAND_H

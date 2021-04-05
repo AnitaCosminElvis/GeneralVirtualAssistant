@@ -4,8 +4,8 @@
 
 VADuckDuckGoSearchCommand::VADuckDuckGoSearchCommand()
 {
-    U_WEB_COMMAND_TYPE cmdType;
-    cmdType.command_type = E_WEB_COMMAND_TYPE::DUCK_DUCK_GO;
+    U_COMMAND_TYPE cmdType;
+    cmdType.webCmdType = E_WEB_COMMAND_TYPE::DUCK_DUCK_GO;
     m_qsUrl = "https://api.duckduckgo.com/?q=";
     m_qsParams = "&format=json";
     m_BaseCmdData.cmdType = cmdType.nVal;
@@ -15,7 +15,7 @@ VADuckDuckGoSearchCommand::VADuckDuckGoSearchCommand()
     m_pWebClient.reset(new WebClient);
 }
 
-int VADuckDuckGoSearchCommand::Initialize()
+int VADuckDuckGoSearchCommand::Initialize(const std::string &)
 {
     m_hrefRegExp.setPattern(R"(href="([^"]*))");
     m_wikiApi.Initialize();
@@ -49,11 +49,11 @@ bool VADuckDuckGoSearchCommand::ExecuteCommand(const std::string &input)
                 extract = jsonParser.GetValueByJSONPath(jsonPath);
                 if (extract.contains("wikipedia")){
                    if (m_wikiApi.ExecuteCommand(input)){
-                       extract = m_wikiApi.GetCommandResult().front().data();
+                       extract = m_wikiApi.GetCommandResult().data();
                    }else return false;
                 }else return false;
             }
-            m_result.push_back(extract.toLocal8Bit().data());
+            m_result = extract.toLocal8Bit().data();
         }else return false;
 
         return true;
@@ -72,7 +72,12 @@ int VADuckDuckGoSearchCommand::GetCommandType()
     return m_BaseCmdData.cmdType;
 }
 
-std::list<std::string> VADuckDuckGoSearchCommand::GetCommandResult()
+int VADuckDuckGoSearchCommand::GetCommandID()
+{
+    return m_BaseCmdData.cmdType;
+}
+
+std::string VADuckDuckGoSearchCommand::GetCommandResult()
 {
     return m_result;
 }

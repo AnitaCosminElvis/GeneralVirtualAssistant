@@ -250,7 +250,7 @@ AIMLParser::AIMLParser(bool displayTree) : displayTree(displayTree)
 {
     indent = 0;
     root.parent = NULL;
-    currentPath = qApp->applicationDirPath();
+    currentPath = QDir::currentPath();
     QTime currentTime = QTime::currentTime();
     srand(currentTime.msec() + currentTime.second() + currentTime.minute());
     //Create the log file
@@ -357,7 +357,7 @@ bool AIMLParser::loadAIMLSet(const QString &aimlSet)
     if (displayTree)
         root.debug(logStream);
     //change current directory as well
-    QDir::setCurrent(absolutePath);
+    //QDir::setCurrent(absolutePath);
     return true;
 }
 

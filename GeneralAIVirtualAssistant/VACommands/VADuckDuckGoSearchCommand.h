@@ -15,19 +15,20 @@ class VADuckDuckGoSearchCommand: public IVACommand
 public:
     VADuckDuckGoSearchCommand();
 
-    int                     Initialize() override;
+    int                     Initialize(const std::string& = "") override;
     bool                    ContainsCommand(const std::string& input) override;
     bool                    ExecuteCommand(const std::string& input) override;
     bool                    StopCommand() override;
     int                     GetCommandType() override;
-    std::list<std::string>  GetCommandResult() override;
+    int                     GetCommandID() override;
+    std::string             GetCommandResult() override;
 
 private:
     std::unique_ptr<WebClient>          m_pWebClient;
     QString                             m_qsUrl;
     QString                             m_qsParams;
     S_BASE_COMMAND_DATA                 m_BaseCmdData;
-    std::list<std::string>              m_result;
+    std::string                         m_result;
     QRegularExpression                  m_hrefRegExp;
     VAWebWikiSearchCommand              m_wikiApi;
 };

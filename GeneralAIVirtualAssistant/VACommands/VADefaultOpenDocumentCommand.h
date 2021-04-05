@@ -15,7 +15,7 @@ class VADefaultOpenDocumentCommand: public VAAbstractResourceFileCommand
 public:
     VADefaultOpenDocumentCommand();
 
-    int Initialize() override;
+    int Initialize(const std::string& = "") override;
 };
 
 #endif // VADEFAULTOPENFILECOMMAND_H

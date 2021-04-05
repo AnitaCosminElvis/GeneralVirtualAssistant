@@ -2,8 +2,8 @@
 
 VADefaultStartAppCommand::VADefaultStartAppCommand()
 {
-    U_LOCAL_COMMAND_TYPE cmdType;
-    cmdType.command_type = E_LOCAL_COMMAND_TYPE::START_APP;
+    U_COMMAND_TYPE cmdType;
+    cmdType.localCmdType = E_LOCAL_COMMAND_TYPE::START_APP;
     m_BaseCmdData.cmdType = cmdType.nVal;
 
     m_BaseCmdData.qsVerbCommand = START_COMMAND;
@@ -12,7 +12,7 @@ VADefaultStartAppCommand::VADefaultStartAppCommand()
     m_StdLocation = QStandardPaths::StandardLocation::ApplicationsLocation;
 }
 
-int VADefaultStartAppCommand::Initialize()
+int VADefaultStartAppCommand::Initialize(const std::string &)
 {
     return 1;
 }

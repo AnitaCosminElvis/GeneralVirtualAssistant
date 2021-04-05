@@ -13,7 +13,7 @@ class VADefaultStartAppCommand: public VAAbstractResourceFileCommand
 public:
     VADefaultStartAppCommand();
 
-    int Initialize() override;
+    int Initialize(const std::string& = "") override;
 };
 
 #endif // VADEFAULTCOMMANDS_H

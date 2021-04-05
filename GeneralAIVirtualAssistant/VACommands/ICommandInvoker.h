@@ -11,7 +11,7 @@ public:
     virtual int IsCommand(const std::string &input) = 0;
     virtual bool ExecuteCommand(const std::string& input, int cmdType) = 0;
     virtual bool StopCommand(int cmdType) = 0;
-    virtual std::list<std::string> GetResult(int cmdType) = 0;
+    virtual std::string GetResult(int cmdType) = 0;
 
     virtual~ ICommandInvoker() = default;
 };

@@ -3,11 +3,12 @@
 
 #include "../Data/Enums.h"
 #include "ICommandInvoker.h"
+#include "ICommandInvokerFactory.h"
 
-class CommandsInvokerFactory
+class InvokerFactoryCreator
 {
 public:
-    static ICommandInvoker* CreateVACommand(E_COMMAND_INVOKER_TYPE commandInvokerType);
+    static ICommandInvokerFactory* GetCommandInvokerFactory(E_VA_TYPE invokerFactoryType);
 
 };
 

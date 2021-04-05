@@ -3,6 +3,7 @@
 
 enum class E_VA_TYPE: int
 {
+     UNDEFINED = -1,
      LOCAL = 0,
      WEB,
 };
@@ -10,8 +11,10 @@ enum class E_VA_TYPE: int
 enum class E_COMMAND_INVOKER_TYPE
 {
     UNDEFINED = -1,
-    LOCAL = 1,
-    WEB
+    LOCAL_DEFAULT = 1,
+    LOCAL_CUSTOM,
+    WEB_DEFAULT,
+    WEB_CUSTOM
 };
 
 enum class E_LOCAL_COMMAND_TYPE: int
@@ -35,15 +38,10 @@ enum class E_WEB_COMMAND_TYPE: int
     COUNT
 };
 
-union U_LOCAL_COMMAND_TYPE
+union U_COMMAND_TYPE
 {
-    E_LOCAL_COMMAND_TYPE    command_type;
-    int                     nVal;
-};
-
-union U_WEB_COMMAND_TYPE
-{
-    E_WEB_COMMAND_TYPE      command_type;
+    E_LOCAL_COMMAND_TYPE    localCmdType;
+    E_WEB_COMMAND_TYPE      webCmdType;
     int                     nVal;
 };
 

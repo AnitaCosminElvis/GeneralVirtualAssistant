@@ -2,11 +2,10 @@
 #define WEBVIRTUALASSISTANT_H
 
 #include "../ivirtualassistant.h"
-#include "SpeechTextIO/ITextToSpeech.h"
-#include "SpeechTextIO/ISpeechToText.h"
 #include "../VACommands/IVACommand.h"
-#include "../VACommands/LocalCommandInvoker.h"
-#include "../Data/Defines.h"
+#include "../VACommands/ICommandInvoker.h"
+
+#include <memory>
 
 class WebVirtualAssistant : public IVirtualAssistant
 {
@@ -18,11 +17,17 @@ public:
     std::string GetResponse(std::string& input) override;
 
 private:
-    std::string GetResponseFromInput(std::string &input);
+    std::string GetResponseFromInput(std::string& input);
+    std::string StopCommand();
+    bool IsStopCommand(const std::string& input);
+    bool IsCommand(const std::string& input);
+    std::string ExecuteCommand(const std::string& input);
 
 private:
-    std::unique_ptr<ICommandInvoker>            m_pCommandInvoker;
-    int                                         m_lastCmdType;
+    std::list<std::shared_ptr<ICommandInvoker>>     m_CmdInvokers;
+    std::shared_ptr<ICommandInvoker>                m_CurrCmdInvoker;
+    int                                             m_CurrCmdID;
+    int                                             m_lastCmdID;
 };
 
 #endif // WEBVIRTUALASSISTANT_H

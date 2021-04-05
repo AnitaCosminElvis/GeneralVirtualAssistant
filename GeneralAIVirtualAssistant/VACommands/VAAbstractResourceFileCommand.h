@@ -11,18 +11,19 @@ class VAAbstractResourceFileCommand: public IVACommand
 {
 public:
     VAAbstractResourceFileCommand();
-    virtual ~VAAbstractResourceFileCommand();
+    virtual ~VAAbstractResourceFileCommand() = default;
 
     bool ContainsCommand(const std::string &input) override;
     bool ExecuteCommand(const std::string &input) override;
     bool StopCommand() override;
     int GetCommandType() override;
-    std::list<std::string> GetCommandResult() override;
+    int GetCommandID() override;
+    std::string GetCommandResult() override;
 
 protected:
     QStandardPaths::StandardLocation    m_StdLocation;
     S_BASE_COMMAND_DATA                 m_BaseCmdData;
-    std::list<std::string>              m_result;
+    std::string                         m_result;
 };
 
 #endif // VAABSTRACTCOMMAND_H

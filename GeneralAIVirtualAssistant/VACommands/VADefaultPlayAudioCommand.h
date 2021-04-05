@@ -13,7 +13,7 @@ class VADefaultPlayAudioCommand: public VAAbstractResourceFileCommand
 public:
     VADefaultPlayAudioCommand();
 
-    int Initialize() override;
+    int Initialize(const std::string& = "") override;
 };
 
 #endif // VADEFAULTPLAYMUSICCOMMAND_H

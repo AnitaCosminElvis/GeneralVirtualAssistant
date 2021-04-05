@@ -1,12 +1,26 @@
 #include "webvirtualassistant.h"
 #include "../VACommands/VACommandsFactory.h"
 #include "../VACommands/ICommandInvoker.h"
-#include "../VACommands/CommandsInvokerFactory.h"
+#include "../VACommands/InvokerFactoryCreator.h"
+#include "../Data/Defines.h"
 
 WebVirtualAssistant::WebVirtualAssistant()
 {
-    m_pCommandInvoker.reset(CommandsInvokerFactory::CreateVACommand(E_COMMAND_INVOKER_TYPE::WEB));
-    m_lastCmdType = 0;
+    std::unique_ptr<ICommandInvokerFactory> invokerFactory;
+    invokerFactory.reset(InvokerFactoryCreator::GetCommandInvokerFactory(E_VA_TYPE::WEB));
+
+    std::shared_ptr<ICommandInvoker> webDefaultCmdInvoker;
+    std::shared_ptr<ICommandInvoker> webCustomCmdInvoker;
+
+    webCustomCmdInvoker.reset(invokerFactory->CreateCommandInvoker(E_COMMAND_INVOKER_TYPE::WEB_CUSTOM));
+
+    if (webCustomCmdInvoker) m_CmdInvokers.push_back(webCustomCmdInvoker);
+
+    webDefaultCmdInvoker.reset(invokerFactory->CreateCommandInvoker(E_COMMAND_INVOKER_TYPE::WEB_DEFAULT));
+
+    if (webDefaultCmdInvoker) m_CmdInvokers.push_back(webDefaultCmdInvoker);
+
+    m_lastCmdID = 0;
 }
 
 WebVirtualAssistant::~WebVirtualAssistant()
@@ -16,7 +30,11 @@ WebVirtualAssistant::~WebVirtualAssistant()
 
 bool WebVirtualAssistant::Initialize()
 {
-    return m_pCommandInvoker->Initialize();
+    for (auto cmdInvoker: m_CmdInvokers){
+        if (!cmdInvoker->Initialize()) return false;
+    }
+
+    return true;
 }
 
 std::string WebVirtualAssistant::GetResponse(std::string & input)
@@ -27,22 +45,11 @@ std::string WebVirtualAssistant::GetResponse(std::string & input)
 std::string WebVirtualAssistant::GetResponseFromInput(std::string &input)
 {
     std::string response;
-    U_WEB_COMMAND_TYPE cmdType;
     if (!input.empty())
     {
-        if (input.rfind("stop",0) == 0)
-        {
-            if (m_pCommandInvoker->StopCommand(m_lastCmdType)) response = VA_STOP_CMD_SUCCESS;
-            else response  = VA_CMD_PARTIAL;
-        }
-        else if (cmdType.nVal = m_pCommandInvoker->IsCommand(input); cmdType.command_type != E_WEB_COMMAND_TYPE::UNDEFINED)
-        {
-            m_lastCmdType = cmdType.nVal;
-            if  (m_pCommandInvoker->ExecuteCommand(input,cmdType.nVal)){
-                response = VA_CMD_SUCCESS;
-                std::list<std::string> list = m_pCommandInvoker->GetResult(cmdType.nVal);
-                response += list.front();
-            }else response.clear();
+        if (IsStopCommand(input)) response = StopCommand();
+        else if (IsCommand(input)){
+            response = ExecuteCommand(input);
         }
     }
 
@@ -50,3 +57,47 @@ std::string WebVirtualAssistant::GetResponseFromInput(std::string &input)
 
     return response;
 }
+
+std::string WebVirtualAssistant::StopCommand()
+{
+    U_COMMAND_TYPE cmdCount;
+    cmdCount.localCmdType = E_LOCAL_COMMAND_TYPE::COUNT;
+    std::shared_ptr<ICommandInvoker> cmdInvoker;
+
+    if (m_lastCmdID < cmdCount.nVal) cmdInvoker = m_CmdInvokers.back();
+    else cmdInvoker = m_CmdInvokers.front();
+
+    if (cmdInvoker->StopCommand(m_lastCmdID)) return VA_STOP_CMD_SUCCESS;
+    else return VA_CMD_PARTIAL;
+}
+
+bool WebVirtualAssistant::IsStopCommand(const std::string &input)
+{
+    return (input.rfind(STOP_PATTERN,0) == 0);
+}
+
+bool WebVirtualAssistant::IsCommand(const std::string &input)
+{
+    U_COMMAND_TYPE cmdType;
+    cmdType.localCmdType = E_LOCAL_COMMAND_TYPE::UNDEFINED;
+
+    for (auto cmdInvoker: m_CmdInvokers){
+        if (cmdType.nVal = cmdInvoker->IsCommand(input); cmdType.localCmdType != E_LOCAL_COMMAND_TYPE::UNDEFINED){
+            m_CurrCmdID = cmdType.nVal;
+            m_CurrCmdInvoker = cmdInvoker;
+            return true;
+        }
+    }
+
+    return false;
+}
+
+std::string WebVirtualAssistant::ExecuteCommand(const std::string &input)
+{
+    if (m_CurrCmdInvoker && m_CurrCmdInvoker->ExecuteCommand(input, m_CurrCmdID)){
+        std::string result = m_CurrCmdInvoker->GetResult(m_CurrCmdID);
+        m_lastCmdID = m_CurrCmdID;
+        return VA_CMD_SUCCESS + result;
+    } else return VA_CMD_FAIL;
+}
+

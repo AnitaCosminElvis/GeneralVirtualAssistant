@@ -12,11 +12,6 @@ VAAbstractResourceFileCommand::VAAbstractResourceFileCommand()
 
 }
 
-VAAbstractResourceFileCommand::~VAAbstractResourceFileCommand()
-{
-
-}
-
 bool VAAbstractResourceFileCommand::ContainsCommand(const std::string &input)
 {
     if (input.empty()) return false;
@@ -60,7 +55,12 @@ int VAAbstractResourceFileCommand::GetCommandType()
     return m_BaseCmdData.cmdType;
 }
 
-std::list<std::string> VAAbstractResourceFileCommand::GetCommandResult()
+int VAAbstractResourceFileCommand::GetCommandID()
+{
+    return m_BaseCmdData.cmdType;
+}
+
+std::string VAAbstractResourceFileCommand::GetCommandResult()
 {
     return m_result;
 }

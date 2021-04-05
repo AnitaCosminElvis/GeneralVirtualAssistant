@@ -2,8 +2,8 @@
 
 VADefaultViewPictureCommand::VADefaultViewPictureCommand()
 {
-    U_LOCAL_COMMAND_TYPE cmdType;
-    cmdType.command_type = E_LOCAL_COMMAND_TYPE::VIEW_PIC;
+    U_COMMAND_TYPE cmdType;
+    cmdType.localCmdType = E_LOCAL_COMMAND_TYPE::VIEW_PIC;
     m_BaseCmdData.cmdType = cmdType.nVal;
 
     m_BaseCmdData.qsVerbCommand = VIEW_COMMAND;
@@ -12,7 +12,7 @@ VADefaultViewPictureCommand::VADefaultViewPictureCommand()
     m_StdLocation = QStandardPaths::StandardLocation::PicturesLocation;
 }
 
-int VADefaultViewPictureCommand::Initialize()
+int VADefaultViewPictureCommand::Initialize(const std::string &)
 {
     return 1;
 }

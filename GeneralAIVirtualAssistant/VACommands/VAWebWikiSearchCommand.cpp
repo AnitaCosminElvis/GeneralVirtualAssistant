@@ -8,8 +8,8 @@
 
 VAWebWikiSearchCommand::VAWebWikiSearchCommand()
 {
-    U_WEB_COMMAND_TYPE cmdType;
-    cmdType.command_type = E_WEB_COMMAND_TYPE::FIND_WIKI;
+    U_COMMAND_TYPE cmdType;
+    cmdType.webCmdType = E_WEB_COMMAND_TYPE::FIND_WIKI;
     m_BaseCmdData.cmdType = cmdType.nVal;
 
     m_qsUrl = "https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exlimit=max&explaintext&exintro&redirects=&titles=";
@@ -19,7 +19,7 @@ VAWebWikiSearchCommand::VAWebWikiSearchCommand()
     m_pWebClient.reset(new WebClient);
 }
 
-int VAWebWikiSearchCommand::Initialize()
+int VAWebWikiSearchCommand::Initialize(const std::string &)
 {
     m_pWebClient->Initialize();
     return 1;
@@ -56,7 +56,7 @@ bool VAWebWikiSearchCommand::ExecuteCommand(const std::string &input)
         if (jsonParser.LoadJSONFromString(qsResponse)){
             QList<QString> jsonPath = {"query","pages",".","extract"};
             QString extract = jsonParser.GetValueByJSONPath(jsonPath);
-            m_result.push_back(extract.toLocal8Bit().data());
+            m_result = extract.toLocal8Bit().data();
         }
 
         return true;
@@ -75,7 +75,12 @@ int VAWebWikiSearchCommand::GetCommandType()
     return m_BaseCmdData.cmdType;
 }
 
-std::list<std::string> VAWebWikiSearchCommand::GetCommandResult()
+int VAWebWikiSearchCommand::GetCommandID()
+{
+    return m_BaseCmdData.cmdType;
+}
+
+std::string VAWebWikiSearchCommand::GetCommandResult()
 {
     return m_result;
 }

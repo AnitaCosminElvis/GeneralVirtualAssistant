@@ -14,7 +14,7 @@ class VADefaultPlayVideoCommand: public VAAbstractResourceFileCommand
 public:
     VADefaultPlayVideoCommand();
 
-    int Initialize() override;
+    int Initialize(const std::string& = "") override;
 };
 
 #endif // VADEFAULTPLAYVIDEOCOMMAND_H

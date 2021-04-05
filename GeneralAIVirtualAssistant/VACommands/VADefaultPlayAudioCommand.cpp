@@ -2,8 +2,8 @@
 
 VADefaultPlayAudioCommand::VADefaultPlayAudioCommand()
 {
-    U_LOCAL_COMMAND_TYPE cmdType;
-    cmdType.command_type = E_LOCAL_COMMAND_TYPE::PLAY_AUD;
+    U_COMMAND_TYPE cmdType;
+    cmdType.localCmdType = E_LOCAL_COMMAND_TYPE::PLAY_AUD;
     m_BaseCmdData.cmdType = cmdType.nVal;
 
     m_BaseCmdData.qsVerbCommand = PLAY_COMMAND;
@@ -12,7 +12,7 @@ VADefaultPlayAudioCommand::VADefaultPlayAudioCommand()
     m_StdLocation = QStandardPaths::StandardLocation::MusicLocation;
 }
 
-int VADefaultPlayAudioCommand::Initialize()
+int VADefaultPlayAudioCommand::Initialize(const std::string&)
 {
     return 1;
 }

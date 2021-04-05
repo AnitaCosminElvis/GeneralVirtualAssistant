@@ -28,8 +28,11 @@ SOURCES += \
     Utils/JSONHandler.cpp \
     Utils/ProcessUtility.cpp \
     Utils/WebClient.cpp \
-    VACommands/CommandsInvokerFactory.cpp \
-    VACommands/LocalCommandInvoker.cpp \
+    VACommands/InvokerFactoryCreator.cpp \
+    VACommands/LocalCustomCommandInvoker.cpp \
+    VACommands/LocalDefaultCommandInvoker.cpp \
+    VACommands/LocalInvokerFactory.cpp \
+    VACommands/VAAbstractCustomCommand.cpp \
     VACommands/VAAbstractResourceFileCommand.cpp \
     VACommands/VACommandsFactory.cpp \
     VACommands/VADefaultOpenDocumentCommand.cpp \
@@ -38,8 +41,12 @@ SOURCES += \
     VACommands/VADefaultStartAppCommand.cpp \
     VACommands/VADefaultViewPictureCommand.cpp \
     VACommands/VADuckDuckGoSearchCommand.cpp \
+    VACommands/VALocalCustomCommand.cpp \
+    VACommands/VAWebCustomCommand.cpp \
     VACommands/VAWebWikiSearchCommand.cpp \
-    VACommands/WebCommandInvoker.cpp \
+    VACommands/WebCustomCommandInvoker.cpp \
+    VACommands/WebDefaultCommandInvoker.cpp \
+    VACommands/WebInvokerFactory.cpp \
     WebVA/webvirtualassistant.cpp \
     SpeechTextIO/audiorecorder.cpp \
     generalaivirtualassistant.cpp \
@@ -63,10 +70,14 @@ HEADERS += \
     Utils/JSONHandler.h \
     Utils/ProcessUtility.h \
     Utils/WebClient.h \
-    VACommands/CommandsInvokerFactory.h \
     VACommands/ICommandInvoker.h \
+    VACommands/ICommandInvokerFactory.h \
     VACommands/IVACommand.h \
-    VACommands/LocalCommandInvoker.h \
+    VACommands/InvokerFactoryCreator.h \
+    VACommands/LocalCustomCommandInvoker.h \
+    VACommands/LocalDefaultCommandInvoker.h \
+    VACommands/LocalInvokerFactory.h \
+    VACommands/VAAbstractCustomCommand.h \
     VACommands/VAAbstractResourceFileCommand.h \
     VACommands/VACommandsFactory.h \
     VACommands/VADefaultOpenDocumentCommand.h \
@@ -75,8 +86,12 @@ HEADERS += \
     VACommands/VADefaultStartAppCommand.h \
     VACommands/VADefaultViewPictureCommand.h \
     VACommands/VADuckDuckGoSearchCommand.h \
+    VACommands/VALocalCustomCommand.h \
+    VACommands/VAWebCustomCommand.h \
     VACommands/VAWebWikiSearchCommand.h \
-    VACommands/WebCommandInvoker.h \
+    VACommands/WebCustomCommandInvoker.h \
+    VACommands/WebDefaultCommandInvoker.h \
+    VACommands/WebInvokerFactory.h \
     WebVA/webvirtualassistant.h \
     SpeechTextIO/audiorecorder.h \
     generalaivirtualassistant.h \
