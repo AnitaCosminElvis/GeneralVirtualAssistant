@@ -9,7 +9,7 @@ WebClient::WebClient()
 
 int WebClient::Initialize()
 {
-    connect(&m_manager,    SIGNAL(authenticationRequired(QNetworkReply*,QAuthenticator*)),
+	connect(&m_manager,    SIGNAL(authenticationRequired(QNetworkReply*,QAuthenticator*)),
             this,       SLOT(authRequired(QNetworkReply*,QAuthenticator*)));
 
 #ifndef QT_NO_SSL

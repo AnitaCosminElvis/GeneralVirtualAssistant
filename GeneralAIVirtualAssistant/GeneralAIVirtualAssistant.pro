@@ -1,5 +1,5 @@
 QT  -= gui
-QT  += core xml network texttospeech multimedia xmlpatterns
+QT  += core multimedia texttospeech network xml xmlpatterns
 
 TEMPLATE = lib
 DEFINES += GENERALAIVIRTUALASSISTANT_LIBRARY

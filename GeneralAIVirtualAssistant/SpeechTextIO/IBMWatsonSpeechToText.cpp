@@ -24,12 +24,13 @@ int IBMWatsonSpeechToText::Initialize()
 {
     m_webClient->Initialize();
     m_webClient->SetCredentials("apikey", m_apiKey);
+
     return 1;
 }
 
 std::string IBMWatsonSpeechToText::ConvertSpeechToText()
 {
-    QString path = QDir::currentPath() + DATA_PATH +RECORD_PATH;
+    QString path = QDir::currentPath() + DATA_PATH + RECORD_PATH;
 
     std::unique_ptr<QFile>  file(new QFile(path));
 

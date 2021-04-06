@@ -27,7 +27,7 @@ private:
     QString                         m_audioCodec      = "audio/pcm";
     QString                         m_fileContainer   = "audio/x-wav";
     int                             m_sampleRate      = 16000;
-    int                             m_bitRate         = 196000;
+    int                             m_bitRate         = 128000;
     int                             m_channelCount    = 1;
 };
 

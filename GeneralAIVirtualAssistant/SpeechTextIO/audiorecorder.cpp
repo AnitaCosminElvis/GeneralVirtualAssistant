@@ -1,6 +1,6 @@
 #include "audiorecorder.h"
 #include "../Utils/JSONHandler.h"
-
+#include <QAudioDeviceInfo>
 AudioRecorder::AudioRecorder()
 {
     m_audioRecorder = new QAudioRecorder();
@@ -41,6 +41,7 @@ void AudioRecorder::LoadAudioSettings()
 
 void AudioRecorder::SetupAudioSettings()
 {
+    m_audioRecorder->setAudioInput("Default");
     m_settings.setCodec(m_audioCodec);
     m_settings.setSampleRate(m_sampleRate);
     m_settings.setChannelCount(m_channelCount);
@@ -48,7 +49,8 @@ void AudioRecorder::SetupAudioSettings()
     m_settings.setQuality(QMultimedia::EncodingQuality::VeryHighQuality);
     m_settings.setEncodingMode( QMultimedia::ConstantBitRateEncoding);
     m_audioRecorder->setEncodingSettings(m_settings, QVideoEncoderSettings(), m_fileContainer);
-    QString path = QDir::currentPath() + DATA_PATH +RECORD_PATH;
+    m_audioRecorder->setContainerFormat("wav");
+    QString path = QDir::currentPath() + DATA_PATH + RECORD_PATH;
 
     m_audioRecorder->setOutputLocation(QUrl::fromLocalFile(path));
 }

@@ -1,4 +1,4 @@
-#include "ChatModel.h"
+#include "chatmodel.h"
 
 ChatModel::ChatModel(QObject *parent)
     : QAbstractTableModel(parent)
