@@ -23,7 +23,6 @@ SOURCES += \
     SpeechTextIO/IBMWatsonSpeechToText.cpp \
     SpeechTextIO/SpeechToTextWrapper.cpp \
     SpeechTextIO/TextToSpeechWrapper.cpp \
-    SpeechTextIO/pocketsphynxspeechtotextwrapper.cpp \
     Utils/FileUtility.cpp \
     Utils/JSONHandler.cpp \
     Utils/ProcessUtility.cpp \
@@ -65,7 +64,6 @@ HEADERS += \
     SpeechTextIO/ITextToSpeech.h \
     SpeechTextIO/SpeechToTextWrapper.h \
     SpeechTextIO/TextToSpeechWrapper.h \
-    SpeechTextIO/pocketsphynxspeechtotextwrapper.h \
     Utils/FileUtility.h \
     Utils/JSONHandler.h \
     Utils/ProcessUtility.h \
@@ -107,9 +105,6 @@ unix {
 
 INCLUDEPATH += $$PWD/SpeechTextIO/bin/Release/x64 \
                $$PWD/SpeechTextIO/bin/include \
-               $$PWD/SpeechTextIO/bin/include/sphinxbase \
-               $$PWD/SpeechTextIO/bin/include/win32 \
-               #$$PWD/SpeechTextIO/bin/include/wince \
 
 
 

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module external.system.module.type="sourceSet" type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$/../../src/commonTest">
+      <sourceFolder url="file://$MODULE_DIR$/../../src/commonTest/kotlin" type="kotlin-test" />
+      <sourceFolder url="file://$MODULE_DIR$/../../src/commonTest/resources" type="kotlin-test-resource" />
+    </content>
+    <orderEntry type="jdk" jdkName="Kotlin SDK" jdkType="KotlinSDK" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="SayJokes.commonMain" scope="TEST" />
+    <orderEntry type="library" scope="TEST" name="Gradle: io.ktor:ktor-client-curl:all:1.5.1" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib-common:1.4.32" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: io.ktor:ktor-client-core:all:1.5.3" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: org.jetbrains.kotlin:kotlin-test-common:1.4.10" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: org.jetbrains.kotlin:kotlin-test-annotations-common:1.4.10" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: org.jetbrains.kotlinx:kotlinx-coroutines-core:all:1.4.3-native-mt" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib-common:1.4.10" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: io.ktor:ktor-http-cio:all:1.5.3" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: org.jetbrains.kotlinx:atomicfu-common:commonMain:0.15.1" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: org.jetbrains.kotlinx:atomicfu-common:nativeInterop:0.15.1" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: org.jetbrains.kotlinx:atomicfu-common:nativeMain:0.15.1" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: io.ktor:ktor-http:all:1.5.3" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: org.jetbrains.kotlinx:atomicfu-common:all:0.15.1" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: io.ktor:ktor-utils:all:1.5.3" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: io.ktor:ktor-io:all:1.5.3" level="project" />
+  </component>
+</module>
