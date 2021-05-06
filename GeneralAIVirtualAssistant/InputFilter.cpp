@@ -4,10 +4,6 @@
 
 #include <QDir>
 
-InputFilter::InputFilter()
-{
-}
-
 bool InputFilter::Initialize()
 {
     QString path = QDir::currentPath() + DATA_PATH + SAFE_LIST_PATH;

@@ -37,12 +37,12 @@ bool WebVirtualAssistant::Initialize()
     return true;
 }
 
-std::string WebVirtualAssistant::GetResponse(std::string & input)
+std::string WebVirtualAssistant::GetResponse(const std::string &input)
 {
     return GetResponseFromInput(input);
 }
 
-std::string WebVirtualAssistant::GetResponseFromInput(std::string &input)
+std::string WebVirtualAssistant::GetResponseFromInput(const std::string &input)
 {
     std::string response;
     if (!input.empty())

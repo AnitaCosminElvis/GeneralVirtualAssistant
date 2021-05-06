@@ -1,12 +1,13 @@
-#include "audiorecorder.h"
+#include "AudioRecorderWrapper.h"
 #include "../Utils/JSONHandler.h"
 #include <QAudioDeviceInfo>
-AudioRecorder::AudioRecorder()
+
+AudioRecorderWrapper::AudioRecorderWrapper()
 {
-    m_audioRecorder = new QAudioRecorder();
+    m_audioRecorder.reset(new QAudioRecorder());
 }
 
-int AudioRecorder::Initialize()
+int AudioRecorderWrapper::Initialize()
 {
 
     LoadAudioSettings();
@@ -15,7 +16,7 @@ int AudioRecorder::Initialize()
     return 1;
 }
 
-void AudioRecorder::LoadAudioSettings()
+void AudioRecorderWrapper::LoadAudioSettings()
 {
     JSONHandler jsonParser;
     QString path = QDir::currentPath() + DATA_PATH + AUDIO_SET_PATH;
@@ -39,7 +40,7 @@ void AudioRecorder::LoadAudioSettings()
     }
 }
 
-void AudioRecorder::SetupAudioSettings()
+void AudioRecorderWrapper::SetupAudioSettings()
 {
     m_audioRecorder->setAudioInput("Default");
     m_settings.setCodec(m_audioCodec);
@@ -55,7 +56,7 @@ void AudioRecorder::SetupAudioSettings()
     m_audioRecorder->setOutputLocation(QUrl::fromLocalFile(path));
 }
 
-int AudioRecorder::StartRecording()
+int AudioRecorderWrapper::StartRecording()
 {
     if (m_audioRecorder->state() == QMediaRecorder::StoppedState){
         m_audioRecorder->record();
@@ -65,7 +66,7 @@ int AudioRecorder::StartRecording()
     }
 }
 
-void AudioRecorder::StopRecording()
+void AudioRecorderWrapper::StopRecording()
 {
     m_audioRecorder->stop();
 }

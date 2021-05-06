@@ -1,34 +1,23 @@
 #ifndef VAGOOGLESEARCHCOMMAND_H
 #define VAGOOGLESEARCHCOMMAND_H
 
-#include "IVACommand.h"
-#include "../Data/Structs.h"
-#include "../Utils/WebClient.h"
+#include "VAWebAbstractCommand.h"
 #include "VAWebWikiSearchCommand.h"
 
-#include <QUrl>
-#include <memory>
 #include <QRegularExpression>
 
-class VADuckDuckGoSearchCommand: public IVACommand
+class VADuckDuckGoSearchCommand: public VAWebAbstractCommand
 {
 public:
     VADuckDuckGoSearchCommand();
 
-    int                     Initialize(const std::string& = "") override;
-    bool                    ContainsCommand(const std::string& input) override;
-    bool                    ExecuteCommand(const std::string& input) override;
-    bool                    StopCommand() override;
-    int                     GetCommandType() override;
-    int                     GetCommandID() override;
-    std::string             GetCommandResult() override;
+    int     Initialize(const std::string& = "") override;
+    bool    ContainsCommand(const std::string& input) override;
+    bool    ExecuteCommand(const std::string& input) override;
+    bool    StopCommand() override;
 
 private:
-    std::unique_ptr<WebClient>          m_pWebClient;
-    QString                             m_qsUrl;
     QString                             m_qsParams;
-    S_BASE_COMMAND_DATA                 m_BaseCmdData;
-    std::string                         m_result;
     QRegularExpression                  m_hrefRegExp;
     VAWebWikiSearchCommand              m_wikiApi;
 };

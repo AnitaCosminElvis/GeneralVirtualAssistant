@@ -16,13 +16,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
-    if (NULL != m_pQStartDialog)
-    {
-        m_pQStartDialog->close();
-        delete m_pQStartDialog;
-        m_pQStartDialog = NULL;
-    }
-
     delete ui;
 }
 
@@ -52,29 +45,11 @@ bool MainWindow::Initialize()
 {
     bool bIsInitialized = true;
 
-    m_pQStartDialog = new QStartDialog(this);
-
-    if (NULL == m_pQStartDialog)
-    {
-        bIsInitialized = false;
-        return bIsInitialized;
-    }
-
     SetupChatBox();
 
     //connecting signal to slots and checking if they're connected
     bIsInitialized = connect(ui->btnSendLocalMessage,    SIGNAL(pressed()),
                              this,                  SLOT(OnInsertMessageSlot()),Qt::QueuedConnection);
-
-    if (!bIsInitialized) return bIsInitialized;
-
-    bIsInitialized = connect(m_pQStartDialog,   SIGNAL(FinishedSignal(QString,qint32,QString)),
-                             this,              SLOT(OnFinishedGettingDataSlot(QString,qint32,QString)),Qt::QueuedConnection);
-
-    if (!bIsInitialized) return bIsInitialized;
-
-    bIsInitialized = connect(m_pQStartDialog,   SIGNAL(CloseApplication()),
-                             this,              SLOT(OnCloseSlot()),Qt::QueuedConnection);
 
     if (!bIsInitialized) return bIsInitialized;
 
@@ -88,41 +63,11 @@ bool MainWindow::Initialize()
 void MainWindow::showEvent(QShowEvent* pEvent)
 {
     QMainWindow::showEvent(pEvent);
-
-//    if (NULL != m_pQStartDialog)
-//    {
-//        m_pQStartDialog->show();
-//    }
 }
 
 void MainWindow::closeEvent(QCloseEvent* pEvent)
 {
-    SaveChatHistory();
     QMainWindow::closeEvent(pEvent);
-}
-
-void MainWindow::OnFinishedGettingDataSlot(QString qsName, qint32 nAge, QString qsOccupation)
-{
-    QString qsAgeDirectory;
-    QString qsOccupationDirectory;
-
-    m_qsName = qsName;
-    m_nAge = nAge;
-    m_qsOccupation = qsOccupation;
-
-    PushMessageFromVA(QString("My Name is ") + m_qsName);
-
-    LoadChatHistory();
-
-    m_bIsInitialized = true;
-}
-
-void MainWindow::SaveChatHistory()
-{
-}
-
-void MainWindow::LoadChatHistory()
-{
 }
 
 void MainWindow::OnCloseSlot()

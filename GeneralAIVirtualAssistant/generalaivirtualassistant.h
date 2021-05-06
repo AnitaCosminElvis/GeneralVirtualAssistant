@@ -5,9 +5,9 @@
 #include "Data/Defines.h"
 #include <QMap>
 #include <QString>
-#include "virtualassistanfactorymethod.h"
+#include "virtualassistantfactorymethod.h"
 #include "ivirtualassistant.h"
-#include "SpeechTextIO/audiorecorder.h"
+#include "SpeechTextIO/AudioRecorderWrapper.h"
 #include "InputFilter.h"
 #include "SpeechTextIO/ITextToSpeech.h"
 #include "SpeechTextIO/ISpeechToText.h"
@@ -28,20 +28,13 @@ public:
     int StartRecording();
     void StopRecording();
 
-    bool AddBlackListItem(const std::string&);
-    bool RemoveBlackListItem(const std::string&);
-
-    bool ExecuteCommand(const std::string&);
-
-    bool SetupProfileData(const std::string& name, int age);
 private:
-    QMap<QString,QString>               m_qChatHistoryMap;
-    std::unique_ptr<IVirtualAssistant>  m_unqLocalVA;
-    std::unique_ptr<IVirtualAssistant>  m_unqWebVA;
-    std::unique_ptr<AudioRecorder>      m_unqAudioRecorder;
-    std::unique_ptr<InputFilter>        m_InputFilter;
-    std::unique_ptr<ITextToSpeech>      m_pTextToSpeech;
-    std::unique_ptr<ISpeechToText>      m_pSpeechToText;
+    std::unique_ptr<IVirtualAssistant>      m_unqLocalVA;
+    std::unique_ptr<IVirtualAssistant>      m_unqWebVA;
+    std::unique_ptr<AudioRecorderWrapper>   m_unqAudioRecorder;
+    std::unique_ptr<InputFilter>            m_InputFilter;
+    std::unique_ptr<ITextToSpeech>          m_pTextToSpeech;
+    std::unique_ptr<ISpeechToText>          m_pSpeechToText;
 
 };
 

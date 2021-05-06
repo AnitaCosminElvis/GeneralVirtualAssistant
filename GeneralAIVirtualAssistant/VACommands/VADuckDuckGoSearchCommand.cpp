@@ -12,7 +12,6 @@ VADuckDuckGoSearchCommand::VADuckDuckGoSearchCommand()
     m_BaseCmdData.qsVerbCommand = "";
     m_BaseCmdData.qsResourceType = "";
     m_BaseCmdData.nMinWordCount = 1;
-    m_pWebClient.reset(new WebClient);
 }
 
 int VADuckDuckGoSearchCommand::Initialize(const std::string &)
@@ -65,19 +64,4 @@ bool VADuckDuckGoSearchCommand::ExecuteCommand(const std::string &input)
 bool VADuckDuckGoSearchCommand::StopCommand()
 {
     return true;
-}
-
-int VADuckDuckGoSearchCommand::GetCommandType()
-{
-    return m_BaseCmdData.cmdType;
-}
-
-int VADuckDuckGoSearchCommand::GetCommandID()
-{
-    return m_BaseCmdData.cmdType;
-}
-
-std::string VADuckDuckGoSearchCommand::GetCommandResult()
-{
-    return m_result;
 }

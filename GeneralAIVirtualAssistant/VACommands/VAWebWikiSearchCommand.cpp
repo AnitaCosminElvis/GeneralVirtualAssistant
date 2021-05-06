@@ -1,9 +1,6 @@
 #include "VAWebWikiSearchCommand.h"
 #include "../Utils/WebClient.h"
 
-#include <QJsonDocument>
-#include <QJsonObject>
-#include <QJsonArray>
 #include "../Utils/JSONHandler.h"
 
 VAWebWikiSearchCommand::VAWebWikiSearchCommand()
@@ -16,7 +13,6 @@ VAWebWikiSearchCommand::VAWebWikiSearchCommand()
     m_BaseCmdData.qsVerbCommand = FIND_COMMAND;
     m_BaseCmdData.qsResourceType = RESOURCE_TYPE;
     m_BaseCmdData.nMinWordCount = MIN_WORD_COUNT;
-    m_pWebClient.reset(new WebClient);
 }
 
 int VAWebWikiSearchCommand::Initialize(const std::string &)
@@ -68,19 +64,4 @@ bool VAWebWikiSearchCommand::ExecuteCommand(const std::string &input)
 bool VAWebWikiSearchCommand::StopCommand()
 {
     return true;
-}
-
-int VAWebWikiSearchCommand::GetCommandType()
-{
-    return m_BaseCmdData.cmdType;
-}
-
-int VAWebWikiSearchCommand::GetCommandID()
-{
-    return m_BaseCmdData.cmdType;
-}
-
-std::string VAWebWikiSearchCommand::GetCommandResult()
-{
-    return m_result;
 }

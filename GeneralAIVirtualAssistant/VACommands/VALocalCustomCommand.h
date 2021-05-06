@@ -7,8 +7,6 @@ class VALocalCustomCommand : public VAAbstractCustomCommand
 {
 public:
     VALocalCustomCommand();
-
-    int GetCommandType() override;
 };
 
 #endif // VALOCALCUSTOMCOMMAND_H

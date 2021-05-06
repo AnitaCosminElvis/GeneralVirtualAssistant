@@ -9,10 +9,9 @@
 class JSONHandler
 {
 public:
-    JSONHandler();
 
     bool LoadJSONFromSettingsFile(QString path);
-    bool LoadJSONFromString(QString in);
+    bool LoadJSONFromString(QString input);
 
     bool WriteJSONToSettingsFile(QString path);
 

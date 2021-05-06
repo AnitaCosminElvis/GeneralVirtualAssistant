@@ -5,13 +5,14 @@
 #include <QDir>
 #include <QUrl>
 #include <QVariantMap>
+#include <memory>
 
 #include "../Data/Defines.h"
 
-class AudioRecorder
+class AudioRecorderWrapper
 {
 public:
-    AudioRecorder();
+    AudioRecorderWrapper();
     int Initialize();
 
     int StartRecording();
@@ -22,7 +23,7 @@ private:
     void SetupAudioSettings();
 
 private:
-    QAudioRecorder*                 m_audioRecorder   = nullptr;
+    std::unique_ptr<QAudioRecorder> m_audioRecorder;
     QAudioEncoderSettings           m_settings;
     QString                         m_audioCodec      = "audio/pcm";
     QString                         m_fileContainer   = "audio/x-wav";

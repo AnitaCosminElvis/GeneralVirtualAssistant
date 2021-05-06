@@ -19,17 +19,14 @@ SOURCES += \
     Models/chatmodel.cpp \
     main.cpp \
     Views/mainwindow.cpp \
-    Views/qstartdialog.cpp \
 
 HEADERS += \
     Data/Defines.h \
     Models/chatmodel.h \
     Views/mainwindow.h \
-    Views/qstartdialog.h \
 
 FORMS += \
     mainwindow.ui \
-    qstartdialog.ui \
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

@@ -45,4 +45,19 @@ union U_COMMAND_TYPE
     int                     nVal;
 };
 
+enum class E_TEXT_TO_SPEECH_TYPE: int
+{
+    UNDEFINED = -1,
+    LOCAL = 0,
+    COUNT
+};
+
+enum class E_SPEECH_TO_TEXT_TYPE: int
+{
+    UNDEFINED = -1,
+    LOCAL = 0,
+    IBM_WATSON,
+    COUNT
+};
+
 #endif // ENUMS_H

@@ -20,8 +20,11 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     InputFilter.cpp \
     LocalVA/localvirtualassistant.cpp \
+    SpeechTextIO/AudioRecorderWrapper.cpp \
     SpeechTextIO/IBMWatsonSpeechToText.cpp \
+    SpeechTextIO/SpeechToTextFactory.cpp \
     SpeechTextIO/SpeechToTextWrapper.cpp \
+    SpeechTextIO/TextToSpeechFactory.cpp \
     SpeechTextIO/TextToSpeechWrapper.cpp \
     Utils/FileUtility.cpp \
     Utils/JSONHandler.cpp \
@@ -41,16 +44,16 @@ SOURCES += \
     VACommands/VADefaultViewPictureCommand.cpp \
     VACommands/VADuckDuckGoSearchCommand.cpp \
     VACommands/VALocalCustomCommand.cpp \
+    VACommands/VAWebAbstractCommand.cpp \
     VACommands/VAWebCustomCommand.cpp \
     VACommands/VAWebWikiSearchCommand.cpp \
     VACommands/WebCustomCommandInvoker.cpp \
     VACommands/WebDefaultCommandInvoker.cpp \
     VACommands/WebInvokerFactory.cpp \
     WebVA/webvirtualassistant.cpp \
-    SpeechTextIO/audiorecorder.cpp \
     generalaivirtualassistant.cpp \
     LocalVA/aimlparser.cpp \
-    virtualassistanfactorymethod.cpp
+    virtualassistantfactorymethod.cpp
 
 HEADERS += \
     Data/Defines.h \
@@ -59,10 +62,13 @@ HEADERS += \
     GeneralAIVirtualAssistant_global.h \
     InputFilter.h \
     LocalVA/localvirtualassistant.h \
+    SpeechTextIO/AudioRecorderWrapper.h \
     SpeechTextIO/IBMWatsonSpeechToText.h \
     SpeechTextIO/ISpeechToText.h \
     SpeechTextIO/ITextToSpeech.h \
+    SpeechTextIO/SpeechToTextFactory.h \
     SpeechTextIO/SpeechToTextWrapper.h \
+    SpeechTextIO/TextToSpeechFactory.h \
     SpeechTextIO/TextToSpeechWrapper.h \
     Utils/FileUtility.h \
     Utils/JSONHandler.h \
@@ -85,17 +91,17 @@ HEADERS += \
     VACommands/VADefaultViewPictureCommand.h \
     VACommands/VADuckDuckGoSearchCommand.h \
     VACommands/VALocalCustomCommand.h \
+    VACommands/VAWebAbstractCommand.h \
     VACommands/VAWebCustomCommand.h \
     VACommands/VAWebWikiSearchCommand.h \
     VACommands/WebCustomCommandInvoker.h \
     VACommands/WebDefaultCommandInvoker.h \
     VACommands/WebInvokerFactory.h \
     WebVA/webvirtualassistant.h \
-    SpeechTextIO/audiorecorder.h \
     generalaivirtualassistant.h \
     LocalVA/aimlparser.h \
     ivirtualassistant.h \
-    virtualassistanfactorymethod.h
+    virtualassistantfactorymethod.h
 
 # Default rules for deployment.
 unix {

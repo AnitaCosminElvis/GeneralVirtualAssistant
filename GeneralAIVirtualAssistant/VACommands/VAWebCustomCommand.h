@@ -9,8 +9,6 @@ class VAWebCustomCommand : public VAAbstractCustomCommand
 {
 public:
     VAWebCustomCommand();
-
-    int GetCommandType() override;
 };
 
 #endif // VAWEBCUSTOMCOMMAND_H

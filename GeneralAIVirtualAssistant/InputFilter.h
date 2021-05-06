@@ -6,8 +6,6 @@
 class InputFilter
 {
 public:
-    InputFilter();
-
     bool Initialize();
     bool CanContinue(QString input);
 

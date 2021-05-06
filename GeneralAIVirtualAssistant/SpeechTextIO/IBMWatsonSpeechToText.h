@@ -6,20 +6,14 @@
 #include "../Utils/WebClient.h"
 
 #include <memory>
-#include <QNetworkAccessManager>
-#include <QNetworkRequest>
-#include <QNetworkReply>
-#include <QObject>
-#include <QAuthenticator>
 
-class IBMWatsonSpeechToText: public QObject
+class IBMWatsonSpeechToText: public ISpeechToText
 {
-    Q_OBJECT
 public:
     IBMWatsonSpeechToText();
 
-    int Initialize();
-    std::string ConvertSpeechToText();
+    int Initialize() override;
+    std::string ConvertSpeechToText() override;
 private:
     std::string GetAnswerFromResponse();
 

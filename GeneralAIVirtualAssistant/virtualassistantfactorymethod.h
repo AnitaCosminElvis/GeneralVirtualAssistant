@@ -4,7 +4,7 @@
 #include "ivirtualassistant.h"
 #include "Data/Enums.h"
 
-class VirtualAssistanFactoryMethod
+class VirtualAssistantFactoryMethod
 {
 public:
     static IVirtualAssistant* CreateVirtualAssistant(E_VA_TYPE type);

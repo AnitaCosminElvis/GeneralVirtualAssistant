@@ -46,12 +46,12 @@ bool LocalVirtualAssistant::Initialize()
     return true;
 }
 
-std::string LocalVirtualAssistant::GetResponse(std::string &input)
+std::string LocalVirtualAssistant::GetResponse(const std::string &input)
 {
     return GetResponseFromInput(input);
 }
 
-std::string LocalVirtualAssistant::GetResponseFromInput(std::string &input)
+std::string LocalVirtualAssistant::GetResponseFromInput(const std::string &input)
 {
     std::string response;
     if (!input.empty())

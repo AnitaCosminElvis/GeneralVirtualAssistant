@@ -19,6 +19,7 @@ public:
     bool ContainsCommand(const std::string &input) override;
     bool ExecuteCommand(const std::string &input) override;
     bool StopCommand() override;
+    int GetCommandType() override;
     int GetCommandID() override;
     std::string GetCommandResult() override;
 
@@ -26,6 +27,7 @@ protected:
     std::unique_ptr<QLibrary>           m_CmdLib;
     S_CUSTOM_CMD_LIB_DATA               m_LibData;
     E_VA_TYPE                           m_VAType;
+    U_COMMAND_TYPE                      m_CmdType;
     int                                 m_cmdID;
 };
 

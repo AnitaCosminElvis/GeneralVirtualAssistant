@@ -1,16 +1,16 @@
 #include "SpeechToTextWrapper.h"
+#include "../Data/Defines.h"
 
 SpeechToTextWrapper::SpeechToTextWrapper()
 {
-    ibmWatsonSpeechToText.reset(new IBMWatsonSpeechToText);
 }
 
 int SpeechToTextWrapper::Initialize()
 {
-    return ibmWatsonSpeechToText->Initialize();
+    return 0;
 }
 
 std::string SpeechToTextWrapper::ConvertSpeechToText()
 {
-    return ibmWatsonSpeechToText->ConvertSpeechToText();
+    return VA_UNINIT;
 }

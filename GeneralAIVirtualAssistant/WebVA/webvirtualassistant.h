@@ -14,10 +14,10 @@ public:
     ~WebVirtualAssistant();
 
     bool Initialize() override;
-    std::string GetResponse(std::string& input) override;
+    std::string GetResponse(const std::string& input) override;
 
 private:
-    std::string GetResponseFromInput(std::string& input);
+    std::string GetResponseFromInput(const std::string& input);
     std::string StopCommand();
     bool IsStopCommand(const std::string& input);
     bool IsCommand(const std::string& input);

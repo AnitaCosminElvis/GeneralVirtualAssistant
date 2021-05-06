@@ -6,6 +6,12 @@
 #include "Data/Defines.h"
 #include "../GeneralAIVirtualAssistant/generalaivirtualassistant.h"
 
+
+/*
+ * Inherits from Qt’s QAbstractTableModel to interact with the UI through overridden delegate methods.
+ * Contains the instance of the Generic AI Virtual Assistant Library to handle and call its public interfacing methods.
+ * Contains a list with the message history, which also acts as a caching system for the delegate’s callbacks.
+*/
 class ChatModel: public QAbstractTableModel
 {
     Q_OBJECT

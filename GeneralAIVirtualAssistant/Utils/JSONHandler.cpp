@@ -3,11 +3,6 @@
 #include <QJsonObject>
 #include <QJsonArray>
 
-JSONHandler::JSONHandler()
-{
-
-}
-
 bool JSONHandler::LoadJSONFromSettingsFile(QString path)
 {
     QFile file(path);
@@ -20,9 +15,9 @@ bool JSONHandler::LoadJSONFromSettingsFile(QString path)
     return !m_JSONDoc.isNull();
 }
 
-bool JSONHandler::LoadJSONFromString(QString in)
+bool JSONHandler::LoadJSONFromString(QString input)
 {
-    m_JSONDoc = QJsonDocument::fromJson(in.toUtf8());
+    m_JSONDoc = QJsonDocument::fromJson(input.toUtf8());
 
     return !m_JSONDoc.isNull();
 }

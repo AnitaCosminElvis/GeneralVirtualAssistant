@@ -1,8 +1,8 @@
-#include "virtualassistanfactorymethod.h"
+#include "virtualassistantfactorymethod.h"
 #include "LocalVA/localvirtualassistant.h"
 #include "WebVA/webvirtualassistant.h"
 
-IVirtualAssistant* VirtualAssistanFactoryMethod::CreateVirtualAssistant(E_VA_TYPE type)
+IVirtualAssistant* VirtualAssistantFactoryMethod::CreateVirtualAssistant(E_VA_TYPE type)
 {
     switch (type){
         case E_VA_TYPE::LOCAL: return new LocalVirtualAssistant();

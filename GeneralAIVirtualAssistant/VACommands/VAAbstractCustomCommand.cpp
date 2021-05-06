@@ -67,6 +67,11 @@ bool VAAbstractCustomCommand::StopCommand()
     return m_LibData.customCmdPFunctions.StopCommand();
 }
 
+int VAAbstractCustomCommand::GetCommandType()
+{
+    return m_CmdType.nVal;
+}
+
 int VAAbstractCustomCommand::GetCommandID()
 {
     return m_cmdID;
