@@ -1,9 +1,9 @@
 #ifndef VADEFAULTCOMMANDS_H
 #define VADEFAULTCOMMANDS_H
 
-#define START_COMMAND   "start"
-#define RESOURCE_TYPE   "app"
-#define MIN_WORD_COUNT  3
+#define START_COMMAND       "launch"
+#define RESOURCE_TYPE_APP   "app"
+#define MIN_WORD_COUNT      2
 
 #include "../Data/Enums.h"
 #include "VAAbstractResourceFileCommand.h"

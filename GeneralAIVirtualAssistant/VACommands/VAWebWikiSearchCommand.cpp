@@ -1,6 +1,6 @@
 #include "VAWebWikiSearchCommand.h"
 #include "../Utils/WebClient.h"
-
+#include "../Utils/CommandRectifier.h"
 #include "../Utils/JSONHandler.h"
 
 VAWebWikiSearchCommand::VAWebWikiSearchCommand()
@@ -36,12 +36,11 @@ bool VAWebWikiSearchCommand::ContainsCommand(const std::string &input)
 bool VAWebWikiSearchCommand::ExecuteCommand(const std::string &input)
 {
     QString qsInput = input.data();
-    QStringList words = qsInput.split(QLatin1Char(' '), Qt::SkipEmptyParts);
+    QStringList words = CommandRectifier::GetSanitizedCommandArgs(m_BaseCmdData,qsInput);
 
-    if (words.count() >= m_BaseCmdData.nMinWordCount)
+    if (!words.empty())
     {
-        int sCount = qsInput.length() - (words[0].length() + words[1].length() + 2);
-        QString qsSearchedTitle = qsInput.right(sCount);
+        QString qsSearchedTitle = words.join(" ");
         QUrl url(m_qsUrl + qsSearchedTitle);
 
         QString qsResponse = m_pWebClient->GET(url,"");
@@ -55,7 +54,7 @@ bool VAWebWikiSearchCommand::ExecuteCommand(const std::string &input)
             m_result = extract.toLocal8Bit().data();
         }
 
-        return true;
+        return (m_result.empty())? false : true;
     }
 
     return false;

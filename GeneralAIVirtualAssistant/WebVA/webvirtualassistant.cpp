@@ -4,6 +4,8 @@
 #include "../VACommands/InvokerFactoryCreator.h"
 #include "../Data/Defines.h"
 
+#include <QString>
+
 WebVirtualAssistant::WebVirtualAssistant()
 {
     std::unique_ptr<ICommandInvokerFactory> invokerFactory;
@@ -73,7 +75,8 @@ std::string WebVirtualAssistant::StopCommand()
 
 bool WebVirtualAssistant::IsStopCommand(const std::string &input)
 {
-    return (input.rfind(STOP_PATTERN,0) == 0);
+    QString qsInput = input.data();
+    return (qsInput.contains(STOP_PATTERN,Qt::CaseInsensitive));
 }
 
 bool WebVirtualAssistant::IsCommand(const std::string &input)

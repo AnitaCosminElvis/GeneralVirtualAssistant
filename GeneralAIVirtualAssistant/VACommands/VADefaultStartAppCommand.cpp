@@ -7,7 +7,7 @@ VADefaultStartAppCommand::VADefaultStartAppCommand()
     m_BaseCmdData.cmdType = cmdType.nVal;
 
     m_BaseCmdData.qsVerbCommand = START_COMMAND;
-    m_BaseCmdData.qsResourceType = RESOURCE_TYPE;
+    m_BaseCmdData.qsResourceType = RESOURCE_TYPE_APP;
     m_BaseCmdData.nMinWordCount = MIN_WORD_COUNT;
     m_StdLocation = QStandardPaths::StandardLocation::ApplicationsLocation;
 }

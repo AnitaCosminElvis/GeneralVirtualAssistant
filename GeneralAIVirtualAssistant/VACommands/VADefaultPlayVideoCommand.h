@@ -2,9 +2,9 @@
 #define VADEFAULTPLAYVIDEOCOMMAND_H
 
 
-#define PLAY_COMMAND    "play"
-#define RESOURCE_TYPE   "vid"
-#define MIN_WORD_COUNT  3
+#define PLAY_COMMAND        "play"
+#define RESOURCE_TYPE_VID   "vid"
+#define MIN_WORD_COUNT      2
 
 #include "../Data/Enums.h"
 #include "VAAbstractResourceFileCommand.h"

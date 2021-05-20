@@ -1,9 +1,9 @@
 #ifndef VADEFAULTOPENFILECOMMAND_H
 #define VADEFAULTOPENFILECOMMAND_H
 
-#define OPEN_COMMAND   "open"
-#define RESOURCE_TYPE   "doc"
-#define MIN_WORD_COUNT  3
+#define OPEN_COMMAND        "open"
+#define RESOURCE_TYPE_DOC   "doc"
+#define MIN_WORD_COUNT      2
 
 #include <QString>
 #include <QStringList>

@@ -32,7 +32,7 @@ LocalVirtualAssistant::~LocalVirtualAssistant()
 
 bool LocalVirtualAssistant::Initialize()
 {
-    QString qsDirPath = AIML_DIRECTORY;//+ QString("/") + qsAgeDirectory;
+    QString qsDirPath = AIML_DIRECTORY;
 
     if (false == m_pAimlParser->loadAIMLSet(qsDirPath))
     {
@@ -82,7 +82,8 @@ std::string LocalVirtualAssistant::StopCommand()
 
 bool LocalVirtualAssistant::IsStopCommand(const std::string &input)
 {
-    return (input.rfind(STOP_PATTERN,0) == 0);
+    QString qsInput = input.data();
+    return (qsInput.contains(STOP_PATTERN,Qt::CaseInsensitive));
 }
 
 bool LocalVirtualAssistant::IsCommand(const std::string &input)

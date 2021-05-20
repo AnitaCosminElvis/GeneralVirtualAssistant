@@ -4,7 +4,7 @@
 
 std::optional<QString> FileUtility::FindAppPathFromInputLists(QStringList qsWords, QStringList qsPaths)
 {
-    for (int i = 2; i < qsWords.count(); i++){
+    for (int i = 0; i < qsWords.count(); i++){
         foreach(auto path, qsPaths){
             auto qsFileLocation = GetAppLocationFromPath(qsWords[i],path);
             if (qsFileLocation.has_value() && !qsFileLocation.value().isEmpty()) return qsFileLocation;

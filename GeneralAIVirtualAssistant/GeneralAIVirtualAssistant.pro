@@ -26,6 +26,7 @@ SOURCES += \
     SpeechTextIO/SpeechToTextWrapper.cpp \
     SpeechTextIO/TextToSpeechFactory.cpp \
     SpeechTextIO/TextToSpeechWrapper.cpp \
+    Utils/CommandRectifier.cpp \
     Utils/FileUtility.cpp \
     Utils/JSONHandler.cpp \
     Utils/ProcessUtility.cpp \
@@ -70,6 +71,7 @@ HEADERS += \
     SpeechTextIO/SpeechToTextWrapper.h \
     SpeechTextIO/TextToSpeechFactory.h \
     SpeechTextIO/TextToSpeechWrapper.h \
+    Utils/CommandRectifier.h \
     Utils/FileUtility.h \
     Utils/JSONHandler.h \
     Utils/ProcessUtility.h \

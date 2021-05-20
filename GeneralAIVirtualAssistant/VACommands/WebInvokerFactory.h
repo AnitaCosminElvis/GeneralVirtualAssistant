@@ -5,7 +5,6 @@
 #include "../Data/Enums.h"
 
 class WebInvokerFactory : public ICommandInvokerFactory
-
 {
 public:
     ICommandInvoker * CreateCommandInvoker(E_COMMAND_INVOKER_TYPE type) override;

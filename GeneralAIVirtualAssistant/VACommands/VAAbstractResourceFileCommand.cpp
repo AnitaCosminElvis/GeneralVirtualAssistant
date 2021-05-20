@@ -5,7 +5,9 @@
 #include <QProcess>
 #include "../Utils/FileUtility.h"
 #include "../Utils/ProcessUtility.h"
+#include "../Utils/CommandRectifier.h"
 #include "../Data/Defines.h"
+
 
 VAAbstractResourceFileCommand::VAAbstractResourceFileCommand()
 {
@@ -18,7 +20,7 @@ bool VAAbstractResourceFileCommand::ContainsCommand(const std::string &input)
 
     QString qsInput = input.data();
 
-    if (!qsInput.startsWith(m_BaseCmdData.qsVerbCommand,Qt::CaseInsensitive)) return false;
+    if (!qsInput.contains(m_BaseCmdData.qsVerbCommand,Qt::CaseInsensitive)) return false;
     if (!qsInput.contains(m_BaseCmdData.qsResourceType,Qt::CaseInsensitive)) return false;
 
     return true;
@@ -27,18 +29,13 @@ bool VAAbstractResourceFileCommand::ContainsCommand(const std::string &input)
 bool VAAbstractResourceFileCommand::ExecuteCommand(const std::string &input)
 {
     QString qsInput = input.data();
-    QStringList words = qsInput.split(QLatin1Char(' '), Qt::SkipEmptyParts);
+    QStringList words = CommandRectifier::GetSanitizedCommandArgs(m_BaseCmdData, qsInput);
 
-    if (words.count() >= m_BaseCmdData.nMinWordCount){
-        if ((words[0].startsWith(m_BaseCmdData.qsVerbCommand)) && (words[1].startsWith(m_BaseCmdData.qsResourceType)))
-        {
-            auto paths = QStandardPaths::standardLocations(m_StdLocation);
-
-            auto path = FileUtility::FindAppPathFromInputLists(words, paths);
-
-            if (path.has_value() && !path.value().isEmpty()){
-                return ProcessUtility::StartApplicationByPath(path.value());
-            }
+    if (!words.empty()){
+        auto paths = QStandardPaths::standardLocations(m_StdLocation);
+        auto path = FileUtility::FindAppPathFromInputLists(words, paths);
+        if (path.has_value() && !path.value().isEmpty()){
+            return ProcessUtility::StartApplicationByPath(path.value());
         }
     }
 

@@ -4,9 +4,9 @@
 #include "VAWebAbstractCommand.h"
 #include <memory>
 
-#define FIND_COMMAND    "find"
+#define FIND_COMMAND    "search"
 #define RESOURCE_TYPE   "wiki"
-#define MIN_WORD_COUNT  3
+#define MIN_WORD_COUNT  2
 
 class VAWebWikiSearchCommand: public VAWebAbstractCommand
 {
